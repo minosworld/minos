@@ -6,11 +6,13 @@ MINOS is a simulator designed to support the development of multisensory models 
 
 ## Live demos
 
-Try our live web client demos!  Use the I/J/K/L keys to step and turn, and the arrow keys to strafe and look up or down.
+Try our live web client demos!
 
 #### [MINOS for SUNCG](http://bitly.com/minos-demo-suncg)
 
 #### [MINOS for Matterport3D](http://bitly.com/minos-demo-mp3d)
+
+Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or down, the R key to respawn, and the O key to update the agent observations panel on the right.
 
 ## Installing
 
