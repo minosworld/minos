@@ -4,6 +4,13 @@ MINOS is a simulator designed to support the development of multisensory models 
 
 [![MINOS video](docs/img/video_thumbnail.png)](https://youtu.be/c0mL9K64q84)
 
+## Live demos
+
+Try our live web client demos!  Use the I/J/K/L keys to step and turn, and the arrow keys to strafe and look up or down.
+
+#### [MINOS for SUNCG](http://bitly.com/minos-demo-suncg)
+
+#### [MINOS for Matterport3D](http://bitly.com/minos-demo-mp3d)
 
 ## Installing
 
