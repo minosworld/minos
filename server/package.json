@@ -1,0 +1,36 @@
+{
+  "name": "sstk-sim",
+  "version": "0.5.0",
+  "description": "MINOS: Multimodal Indoor Simulator",
+  "scripts": {
+    "server": "node --max-old-space-size=4096 server.js",
+    "mocha": "mocha",
+    "cover": "istanbul cover mocha",
+    "test": "npm run cover"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "better-require": "^0.0.3",
+    "commander": "^2.9.0",
+    "node-wav": "^0.0.2",
+    "seedrandom": "^2.4.2",
+    "shelljs": "^0.7.8",
+    "socket.io": "^1.7.4",
+    "sstk": "smartscenes/sstk"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.0",
+    "mocha": "^2.3.3",
+    "pixel-diff": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minosworld/minos.git"
+  },
+  "author": "Manolis Savva <manolis.savva@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minosworld/minos/issues"
+  }
+}

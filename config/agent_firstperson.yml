@@ -1,0 +1,12 @@
+---
+eyeHeight: 1.5                    # m height eye level
+radius: 0.1                       # 10cm radius cylinder
+radialClearance: 0.2              # clearance to leave from center of agent for shortest path computations
+mass: 50.0                        # kg weight
+coeffRestitution: 0.1             # ratio of relative velocity before and after collision in direction of collision normal
+stepAcceleration: 1.0             # m/s^2
+maxSpeed: 1.0                     # m/s
+linearFriction: 0.3               # coefficient of friction applied every step (k in F=-k*m*v/dt)
+turnAcceleration: 1.0             # rad/s^2
+maxAngularSpeed: 1.0              # rad/s
+angularFriction: 0.3              # coefficient of angular friction applied every step (k in tau=-k*m*w/dt)

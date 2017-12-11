@@ -1,0 +1,9 @@
+{
+  "sensors": { "$ref": "sensors.yml" },
+  "agents": {
+    "agent_continuous": { "$ref": "agent_continuous.yml" },
+    "agent_gridworld": { "$ref": "agent_gridworld.yml" },
+    "agent_firstperson": { "$ref": "agent_firstperson.yml" }
+  },
+  "replaceModels": { "$ref": "replace_doors.json" }
+}

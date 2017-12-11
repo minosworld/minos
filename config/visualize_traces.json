@@ -1,0 +1,18 @@
+{
+	"color_by": "color",
+	"color": "white",
+	"use_ambient_occlusion": true,
+	"scene": {
+		"archOnly": false,
+		"emptyRoom": false,
+		"hideCategories": ["person", "plant"],
+		"replaceModels": { "$ref": "./replace_doors.json"},
+		"retexture": {
+			"texturedObjects": "all",
+			"texturedSet": "train"
+		}
+	},
+	"camera": {
+		"type": "perspective"
+	}
+}

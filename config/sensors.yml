@@ -1,0 +1,66 @@
+---
+- name: group             # name of group (can be anything you want)
+  type: group             # defines group of sensors at the same position and orientation
+  modes:
+  - name: color           # image camera
+    type: color
+    renderer: main
+    encoding: gray        # encoding: 'gray' for grayscale, 'rgba' for color
+  - name: objectId        # object id mask
+    type: semantic
+    encoding: objectId
+    countPixels: true     # whether to return pixel counts
+  - name: objectType      # object category mask
+    type: semantic
+    encoding: objectType
+  - name: roomId          # room id mask
+    type: semantic
+    encoding: roomId
+  - name: roomType        # room type mask
+    type: semantic
+    encoding: roomType
+  - name: normal          # surface normals
+    type: normal
+    encoding: xyza
+  configuration: positional
+  position: [[0, 0.6, 0]]
+  orientation: [[0, 0, -1]]
+  resolution: [84, 84]
+  resize: true
+  active: true
+- name: depth                 # depth camera
+  type: depth
+  configuration: positional
+  position: [[0, 0.6, 0]]
+  orientation: [[0, 0, -1]]
+  resolution: [84, 84]
+  resize: true
+  encoding: depth
+  datatype: float32
+  near: 0.1                  # camera near in meters
+  far: 20                    # camera far in meters
+  metersToUnit: 1
+  noise_model:
+    name: kinect
+    type: simple
+    clip: [0.5, 4]
+    noise: ["gaussian", 0, 0.01]
+  noise: false
+  active: true
+- name: audio  # audio sensors
+  type: audio
+  configuration: radial
+  position: [[0.15, 0.6, 1.57], [0.15, 0.6, 4.71]]
+  orientation: [[1, 0, 0], [-1, 0, 0]]
+  resolution: [1]
+  encoding: pcm
+  active: true
+- name: force  # force sensors
+  type: force
+  configuration: radial-group
+  position: [[0, -0.25, 0]]
+  orientation: [[0, 0, 1]]
+  radial: [0.25, 4, 0, 6.28]
+  resolution: [1, 1, 1]
+  encoding: raw_contact
+  active: true
