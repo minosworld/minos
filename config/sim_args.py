@@ -51,10 +51,10 @@ def add_sim_args(parser):
                         default=None,
                         help='Number of seconds between ping/pong before client timeout')
     parser.add_argument('--width', type=int,
-                        default=128,
+                        default=256,
                         help='Image width')
     parser.add_argument('--height', type=int,
-                        default=128,
+                        default=256,
                         help='Image height')
     parser.add_argument('--color_encoding',
                         default='rgba',
