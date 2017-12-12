@@ -159,6 +159,7 @@ def interactive_loop(sim, args):
     pygame.mixer.pre_init(frequency=8000, channels=1)
     pygame.init()
     pygame.key.set_repeat(500, 50)  # delay, interval
+    clock = pygame.time.Clock()
 
     # Set up display
     font_spacing = 20
@@ -213,7 +214,7 @@ def interactive_loop(sim, args):
     # Write text
     label_positions['title'] = (display_shape[0]/2, font_spacing/2)
     write_text(display_surf, 'MINOS', fontsize=20, position = label_positions['title'], align='center')
-    write_text(display_surf, 'Offset', position = label_positions['curr']['offset'])
+    write_text(display_surf, 'dir_to_goal', position = label_positions['curr']['offset'])
     if args.observations.get('forces'):
         write_text(display_surf, 'Forces', position = label_positions['curr']['forces'])
     if args.observations.get('map'):
@@ -240,10 +241,13 @@ def interactive_loop(sim, args):
     replay_auto = False
     replay_mode = args.replay_mode
     replay_mode_index = REPLAY_MODES.index(replay_mode)
-    print('IJKL+Arrows = move agent, R = respawn, N = next state/scene, O = print observation, Q = quit')
+    print('***\n***')
+    print('CONTROLS: WASD+Arrows = move agent, R = respawn, N = next state/scene, O = print observation, Q = quit')
     if replay:
-        print('P = toggle auto replay, A = toggle replay using %s '
+        print('P = toggle auto replay, E = toggle replay using %s '
               % str([m + ('*' if m == replay_mode else '') for m in REPLAY_MODES]))
+    print('***\n***')
+
     while sim.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -291,9 +295,9 @@ def interactive_loop(sim, args):
                     if prev_key == 'p':
                         replay_auto = not replay_auto
                         unprocessed_keypressed = False
-                elif keys[K_a]:
-                    prev_key = 'a' if prev_key is not 'a' else ''
-                    if prev_key == 'a':
+                elif keys[K_e]:
+                    prev_key = 'e' if prev_key is not 'e' else ''
+                    if prev_key == 'e':
                         replay_mode_index = (replay_mode_index + 1) % len(REPLAY_MODES)
                         replay_mode = REPLAY_MODES[replay_mode_index]
                         unprocessed_keypressed = False
@@ -320,17 +324,17 @@ def interactive_loop(sim, args):
                         elif replay_mode == 'positions':
                             sim.move_to([rec['px'], rec['py'], rec['pz']], rec['rotation'])
             else:
-                if keys[K_i]:
+                if keys[K_w]:
                     action['name'] = 'forwards'
-                elif keys[K_k]:
+                elif keys[K_s]:
                     action['name'] = 'backwards'
-                elif keys[K_j]:
-                    action['name'] = 'turnLeft'
-                elif keys[K_l]:
-                    action['name'] = 'turnRight'
                 elif keys[K_LEFT]:
-                    action['name'] = 'strafeLeft'
+                    action['name'] = 'turnLeft'
                 elif keys[K_RIGHT]:
+                    action['name'] = 'turnRight'
+                elif keys[K_a]:
+                    action['name'] = 'strafeLeft'
+                elif keys[K_d]:
                     action['name'] = 'strafeRight'
                 elif keys[K_UP]:
                     action['name'] = 'lookUp'
@@ -372,6 +376,7 @@ def interactive_loop(sim, args):
         display_response(response, display_surf, camera_outputs['curr'], print_observation=print_next_observation, write_video=True)
         pygame.display.flip()
         num_frames += 1
+        clock.tick(30)  # constraint to max 30 fps
 
     # NOTE: log_action_trace handled by javascript side
     # if args.log_action_trace:
