@@ -35,7 +35,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Extract the SUNCG and/or MP3D data packages under `$HOME/work/suncg` and/or `$HOME/work/mp3d`, or under another parent directory of your choice.  If you choose a directory other than `$HOME/work` as the dataset parent directory remember to run all remaining commands with the prefix `NODE_BASE_URL=path/to/data_parent_dir`.
 
-1. Check that everything works by running the interactive client through `python3 -m tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the I/J/K/L keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
+1. Check that everything works by running the interactive client through `python3 -m tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the W/A/S/D keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
     - `python3 -m tools.pygame_client --empty_room` : navigation in empty SUNCG environments
     - `python3 -m tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy` : an example Matterport3D environment
     - `python3 -m tools.pygame_client --agent_config agent_gridworld` : discrete navigation agent
