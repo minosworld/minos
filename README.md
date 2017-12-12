@@ -16,7 +16,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 ## Installing
 
-1. Request and download the [SUNCG](https://http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.
+1. Request and download the [SUNCG](https://http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  If you are already a registered user, please send another email to request the additional MINOS data packages.
 
 1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
 
@@ -105,7 +105,7 @@ We are committed to continuously improving MINOS and supporting the research com
 
 ## Citation
 
-If you use MINOS please cite out technical report:
+If you use MINOS please cite our [technical report](https://arxiv.org/pdf/1712.03931.pdf):
 ```
 @article{savva2017minos,
   author = {Manolis Savva and Angel X. Chang and Alexey Dosovitskiy and Thomas Funkhouser and Vladlen Koltun},
