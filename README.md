@@ -18,8 +18,6 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Request and download the [SUNCG](https://http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  If you are already a registered user, please send another email to request the additional MINOS data packages.
 
-1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
-
 1. Install [node.js](https://nodejs.org/) using the Node Version Manager ([nvm](https://github.com/creationix/nvm)).
     ```
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.7/install.sh | bash
@@ -30,6 +28,8 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
     Confirm node installation is succesful using `node -v` at the terminal.
 
 1. Build the MINOS server modules by running `npm install` inside the `server` directory.  This process will download and compile all server module dependencies and might take a few minutes.
+
+1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
 
 1. Install Python client dependencies by running `pip3 install -r requirements.txt` in the root of the repository.
 
