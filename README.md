@@ -107,7 +107,12 @@ We are committed to continuously improving MINOS and supporting the research com
 
 If you use MINOS please cite out technical report:
 ```
-TODO
+@article{savva2017minos,
+  author = {Manolis Savva and Angel X. Chang and Alexey Dosovitskiy and Thomas Funkhouser and Vladlen Koltun},
+  title = {{MINOS}: Multimodal Indoor Simulator for Navigation in Complex Environments},
+  journal = {arXiv:1712.03931},
+  year = {2017}
+}
 ```
 
 ## License
