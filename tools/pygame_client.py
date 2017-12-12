@@ -216,12 +216,12 @@ def interactive_loop(sim, args):
     write_text(display_surf, 'MINOS', fontsize=20, position = label_positions['title'], align='center')
     write_text(display_surf, 'dir_to_goal', position = label_positions['curr']['offset'])
     if args.observations.get('forces'):
-        write_text(display_surf, 'Forces', position = label_positions['curr']['forces'])
+        write_text(display_surf, 'forces', position = label_positions['curr']['forces'])
     if args.observations.get('map'):
-        write_text(display_surf, 'Map', position = label_positions['map'])
-    write_text(display_surf, 'Observations', position = (0, font_spacing))
+        write_text(display_surf, 'map', position = label_positions['map'])
+    write_text(display_surf, 'observations | controls: WASD+Arrows', position = (0, font_spacing))
     if args.show_goals:
-        write_text(display_surf, 'Goal', position = (0, args.height + font_spacing*3 + font_spacing))
+        write_text(display_surf, 'goal', position = (0, args.height + font_spacing*3 + font_spacing))
     for obs in all_camera_observations:
         if args.observations.get(obs):
             write_text(display_surf, obs, position = label_positions['curr'][obs])
@@ -369,7 +369,7 @@ def interactive_loop(sim, args):
                 old_display_surf = display_surf.convert()
                 display_surf = pygame.display.set_mode((max(rw,w), max(rh,h)), pygame.RESIZABLE | pygame.DOUBLEBUF)
                 display_surf.blit(old_display_surf, (0,0))
-                write_text(display_surf, 'Map', position = label_positions['map'])
+                write_text(display_surf, 'map', position = label_positions['map'])
             blit_img_to_surf(img, display_surf, config.get('position'), surf_key='map')
 
         # Handle other response
