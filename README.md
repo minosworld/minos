@@ -16,7 +16,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 ## Installing
 
-1. Request and download the [SUNCG](https://http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  If you are already a registered user, please send another email to request the additional MINOS data packages.
+1. Request and download the [SUNCG](http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  If you are already a registered user, please send another email to request the additional MINOS data packages.
 
 1. Install [node.js](https://nodejs.org/) using the Node Version Manager ([nvm](https://github.com/creationix/nvm)).
     ```
