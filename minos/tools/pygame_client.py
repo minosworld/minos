@@ -7,12 +7,12 @@ from pygame.locals import *
 from timeit import default_timer as timer
 import traceback
 
-from lib import common
-from config.sim_args import parse_sim_args
-from lib.Simulator import Simulator
-from lib.util.ActionTraces import ActionTraces
-from lib.util.StateSet import StateSet
-from lib.util.VideoWriter import VideoWriter
+from minos.lib import common
+from minos.config.sim_args import parse_sim_args
+from minos.lib.Simulator import Simulator
+from minos.lib.util.ActionTraces import ActionTraces
+from minos.lib.util.StateSet import StateSet
+from minos.lib.util.VideoWriter import VideoWriter
 
 
 REPLAY_MODES = ['actions', 'positions']

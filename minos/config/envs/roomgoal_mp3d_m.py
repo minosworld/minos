@@ -1,4 +1,4 @@
-from lib.util.measures import MeasureGoalRoomType
+from minos.lib.util.measures import MeasureDistDirTime
 
 config = {
     'task': 'room_goal',

@@ -3,7 +3,7 @@ import csv
 import json
 import os
 
-from lib.common import get_goal_for_task
+from minos.lib.common import get_goal_for_task
 
 
 def str2bool(v):

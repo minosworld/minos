@@ -7,9 +7,9 @@ import random
 from timeit import default_timer as timer
 import traceback
 
-from lib import common
-from lib.Simulator import Simulator
-from config.sim_args import parse_sim_args
+from minos.lib import common
+from minos.lib.Simulator import Simulator
+from minos.config.sim_args import parse_sim_args
 
 actions = ['forwards', 'backwards', 'turnLeft', 'turnRight', 'strafeLeft', 'strafeRight', 'lookUp', 'lookDown', 'idle'];
 

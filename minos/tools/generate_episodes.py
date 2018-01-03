@@ -3,9 +3,9 @@ from easydict import EasyDict as edict
 import random
 import math
 
-from config.sim_args import parse_sim_args
-from lib import common
-from lib.Simulator import Simulator
+from minos.config.sim_args import parse_sim_args
+from minos.lib import common
+from minos.lib.Simulator import Simulator
 
 random.seed(12345678)
 

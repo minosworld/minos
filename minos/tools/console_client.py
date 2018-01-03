@@ -4,9 +4,9 @@ import math
 import numpy as np
 import traceback
 
-from config.sim_args import parse_sim_args
-from lib import common
-from lib.Simulator import Simulator
+from minos.config.sim_args import parse_sim_args
+from minos.lib import common
+from minos.lib.Simulator import Simulator
 
 
 def _interactive_loop(stdscr, sim, scene_ids, scene_index):

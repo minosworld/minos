@@ -5,10 +5,10 @@ from pygame.locals import *
 from timeit import default_timer as timer
 import traceback
 
-from lib.RoomSimulator import RoomSimulator
-from lib import common
-from config import sim_config
-from config.sim_args import add_sim_args_basic
+from minos.lib.RoomSimulator import RoomSimulator
+from minos.lib import common
+from minos.config import sim_config
+from minos.config.sim_args import add_sim_args_basic
 
 
 def interactive_loop(sim, args):
