@@ -2,6 +2,7 @@ https://github.com/msavva/socketIO-client-2/zipball/master
 numpy
 scipy
 easydict
+matplotlib
 pygame
 Pillow
 psutil
