@@ -5,8 +5,8 @@ var fs = require('fs');
 var path = require('path');
 var PNG = require('pngjs').PNG;
 var shell = require('shelljs');
-var STK = require('../ssc/stk-ssc');
-var cmd = require('../ssc/ssc-parseargs');
+var STK = require('sstk/ssc/stk-ssc');
+var cmd = require('sstk/ssc/ssc-parseargs');
 var THREE = global.THREE;
 var _ = STK.util;
 
@@ -74,7 +74,7 @@ var archType =  STK.scene.SceneState.getArchType(sceneDefaults);
 
 function loadAssetGroups(assetSources) {
   STK.assets.AssetGroups.registerDefaults();
-  var assets = require('../ssc/data/assets.json');
+  var assets = require('sstk/ssc/data/assets.json');
   var assetsMap = _.keyBy(assets, 'name');
   STK.assets.registerCustomAssetGroupsSync(assetsMap, assetSources);
   if (cmd.format) {
