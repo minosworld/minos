@@ -78,7 +78,7 @@ class IndoorEnv(gym.Env):
         state = self._sim.step(action)
         self._last_state = state  # Last observed state
         observation = {k:v for k,v in state.items() if k not in ['rewards','terminals']}
-        info = {}
+        info = state['info']
         return observation, state['rewards'], state['terminals'], info
 
     def _render(self, mode='human', close=False):
