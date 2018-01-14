@@ -3,8 +3,8 @@
 var async = require('async');
 var fs = require('fs');
 var shell = require('shelljs');
-var STK = require('../ssc/stk-ssc');
-var cmd = require('../ssc/ssc-parseargs');
+var STK = require('sstk/ssc/stk-ssc');
+var cmd = require('sstk/ssc/ssc-parseargs');
 var THREE = global.THREE;
 var _ = STK.util;
 
@@ -38,7 +38,7 @@ if (!cmd.input) {
 }
 
 STK.assets.AssetGroups.registerDefaults();
-var assets = require('../ssc/data/assets.json');
+var assets = require('sstk/ssc/data/assets.json');
 var assetsMap = _.keyBy(assets, 'name');
 STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.source]);
 if (cmd.format) {
