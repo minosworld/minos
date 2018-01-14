@@ -4,8 +4,8 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var shell = require('shelljs');
-var STK = require('../ssc/stk-ssc');
-var cmd = require('../ssc/ssc-parseargs');
+var STK = require('sstk/ssc/stk-ssc');
+var cmd = require('sstk/ssc/ssc-parseargs');
 var THREE = global.THREE;
 
 STK.Constants.setVirtualUnit(1);  // meters
@@ -35,7 +35,7 @@ if (!cmd.input) {
 
 var assetSource = 'p5dScene';
 STK.assets.AssetGroups.registerDefaults();
-var assets = require('../ssc/data/assets.json');
+var assets = require('sstk/ssc/data/assets.json');
 var assetsMap = _.keyBy(assets, 'name');
 STK.assets.registerCustomAssetGroupsSync(assetsMap, [assetSource]);
 if (cmd.format) {
