@@ -113,6 +113,7 @@ class IndoorEnv(gym.Env):
                 img = np.dstack([img, img, img])
             else:  # assume rgba
                 img = img[:, :, :-1]
+            img = img.reshape((img.shape[1], img.shape[0], img.shape[2]))
             if mode == 'human':
                 from gym.envs.classic_control import rendering
                 if self.viewer is None:
