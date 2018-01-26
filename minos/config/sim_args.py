@@ -77,12 +77,12 @@ def add_sim_args(parser):
     parser.add_argument('--depth_noise', action='store_true',
                         default=False,
                         help='Depth gaussian noise enabled')
-    parser.add_argument('--audio', action='store_true',
-                        default=False,
-                        help='Audio enabled')
-    parser.add_argument('--navmap', action='store_true',
-                        default=False,
-                        help='Use navigation map')
+    # parser.add_argument('--audio', action='store_true',
+    #                     default=False,
+    #                     help='Audio enabled')
+    # parser.add_argument('--navmap', action='store_true',
+    #                     default=False,
+    #                     help='Use navigation map')
     parser.add_argument('--collision_mode',
                         default='raycast',
                         help='Collision detection mode')
@@ -130,9 +130,9 @@ def add_sim_args(parser):
     parser.add_argument('--debug', action='store_true',
                         default=False,
                         help='Debug visualization mode')
-    parser.add_argument('--debug_audio_memory', action='store_true',
-                        default=False,
-                        help='Debug audio memory')
+    # parser.add_argument('--debug_audio_memory', action='store_true',
+    #                     default=False,
+    #                     help='Debug audio memory')
     parser.add_argument('--profile_cpu', action='store_true',
                         default=False,
                         help='Profile cpu usage (by simserver)')
@@ -149,9 +149,9 @@ def add_sim_args(parser):
     parser.add_argument('--agent_config', type=str,
                         default='',
                         help='Agent configuration to use (corresponds to agent config JSON file in config dir)')
-    parser.add_argument('--task', type=str,
-                        default='room_goal',
-                        help='Type of task to perform')
+    # parser.add_argument('--task', type=str,
+    #                     default='room_goal',
+    #                     help='Type of task to perform')
     parser.add_argument('--scene_format',
                         default=None, type=str,
                         help='Scene format to use')
