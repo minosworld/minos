@@ -130,9 +130,9 @@ def add_sim_args(parser):
     parser.add_argument('--debug', action='store_true',
                         default=False,
                         help='Debug visualization mode')
-    parser.add_argument('--debug_audio_memory', action='store_true',
-                        default=False,
-                        help='Debug audio memory')
+    # parser.add_argument('--debug_audio_memory', action='store_true',
+    #                     default=False,
+    #                     help='Debug audio memory')
     parser.add_argument('--profile_cpu', action='store_true',
                         default=False,
                         help='Profile cpu usage (by simserver)')
