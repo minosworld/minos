@@ -54,8 +54,8 @@ class Simulator:
             params.host = 'localhost'
         if 'port' not in params or params.port is None:
             params.port = common.get_random_port()
-        if 'audio' not in params:
-            params.audio = {}
+        if 'audio' not in params or not params.audio:
+            params.audio = edict()
         if 'port' not in params.audio or params.audio.port is None:
             params.audio.port = common.get_random_port()
         if 'datapath' not in params.audio:
