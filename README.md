@@ -72,9 +72,9 @@ We provide a collection of scripts that are useful for setting up experiments, b
 
 #### Exporting precomputed resources
 
-- `export_navgrid.js` - Exports precomputed navigation maps (will need to be computed and exported for scene sets other than the ones provided in the repo):
+- `export_navgrid.js` - Exports precomputed navigation maps (will need to be computed and exported for scene sets other than the ones provided in the repo). Example for SUNCG scene id `004667ffa2594fa780e84d7b979f25ab`:
     ```
-    NODE_BASE_URL=~/work ./export_navgrid.js --config_file config/visualize_traces.json --output_dir navgrid --input simscenes. --arch_only
+    NODE_BASE_URL=~/work ./export_navgrid.js --config_file ../config/visualize_traces.json --output_dir navgrid --ids 004667ffa2594fa780e84d7b979f25ab
     ```
     Use `--arch_only` or `--empty_room` to generate navigation maps for architecture-only and empty room variants.
 
