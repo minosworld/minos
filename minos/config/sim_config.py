@@ -4,7 +4,7 @@ import json
 import os
 import pprint
 import time
-from lib.util import measures
+from minos.lib.util import measures
 
 
 def resolve_relative_path(path):
@@ -76,18 +76,19 @@ sim_defaults = {
 
 
 def update_dict(d, u):
-    for k, v in u.items():
-        if isinstance(v, collections.Mapping):
-            d[k] = update_dict(d.get(k, {}), v)
-        else:
-            d[k] = v
+    if d and u:
+        for k, v in u.items():
+            if isinstance(v, collections.Mapping):
+                d[k] = update_dict(d.get(k, {}), v)
+            else:
+                d[k] = v
     return d
 
 
 def get(env_config, override_args=None, print_config=False):
     simargs = copy.copy(sim_defaults)
     if env_config:
-        env = __import__('config.envs.' + env_config, fromlist=['config'])
+        env = __import__('minos.config.envs.' + env_config, fromlist=['config'])
         simargs.update(env.config)
 
     # augmentation / setting of args

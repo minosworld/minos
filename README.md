@@ -31,15 +31,15 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
 
-1. Install Python client dependencies by running `pip3 install -r requirements.txt` in the root of the repository.
+1. Install the minos Python module by running `pip3 install -e .` in the root of the repository.
 
 1. Extract the SUNCG and/or MP3D data packages under `$HOME/work/suncg` and/or `$HOME/work/mp3d`, or under another parent directory of your choice.  If you choose a directory other than `$HOME/work` as the dataset parent directory remember to run all remaining commands with the prefix `NODE_BASE_URL=path/to/data_parent_dir`.
 
-1. Check that everything works by running the interactive client through `python3 -m tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the W/A/S/D keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
-    - `python3 -m tools.pygame_client --empty_room` : navigation in empty SUNCG environments
-    - `python3 -m tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy` : an example Matterport3D environment
-    - `python3 -m tools.pygame_client --agent_config agent_gridworld` : discrete navigation agent
-    - `python3 -m tools.pygame_client --depth -s normal -s objectId -s objectType -s map --navmap --width 128 --height 128` : multimodal agent with depth, normals, object instance and category frames
+1. Check that everything works by running the interactive client through `python3 -m minos.tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the W/A/S/D keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
+    - `python3 -m minos.tools.pygame_client --empty_room` : navigation in empty SUNCG environments
+    - `python3 -m minos.tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy` : an example Matterport3D environment
+    - `python3 -m minos.tools.pygame_client --agent_config agent_gridworld` : discrete navigation agent
+    - `python3 -m minos.tools.pygame_client --depth -s normal -s objectId -s objectType -s map --navmap --width 128 --height 128` : multimodal agent with depth, normals, object instance and category frames
 
 ## Documentation
 
@@ -66,13 +66,13 @@ We provide a collection of scripts that are useful for setting up experiments, b
 
 #### Presampling episodes for reproducible testing
 
-- `tools/generate_episodes.py` - Presamples agent episodes (start states and goals) and produces a CSV format file that can be used as a parameter to the `states_file` task configuration option.
+- `minos/tools/generate_episodes.py` - Presamples agent episodes (start states and goals) and produces a CSV format file that can be used as a parameter to the `states_file` task configuration option.
 
-- `server/check_episode_states.js` - Checks presampled agent episodes to verify navigability.
+- `minos/server/check_episode_states.js` - Checks presampled agent episodes to verify navigability.
 
 #### Exporting precomputed resources
 
-- `export_navgrid.js` - Exports precomputed navigation maps (will need to be computed and exported for scene sets other than the ones provided in the repo). Example for SUNCG scene id `004667ffa2594fa780e84d7b979f25ab`:
+- `minos/server/export_navgrid.js` - Exports precomputed navigation maps (will need to be computed and exported for scene sets other than the ones provided in the repo):
     ```
     NODE_BASE_URL=~/work ./export_navgrid.js --config_file ../config/visualize_traces.json --output_dir navgrid --ids 004667ffa2594fa780e84d7b979f25ab
     ```
@@ -80,20 +80,20 @@ We provide a collection of scripts that are useful for setting up experiments, b
 
 #### Visualization
 
-- `server/visualize_path.js` - Visualizes presampled episodes and shortest paths:
+- `minos/server/visualize_path.js` - Visualizes presampled episodes and shortest paths:
     ```
     NODE_BASE_URL=~/work node --max-old-space-size=2048 visualize_path.js --compress_png --config_file config/visualize_traces.json --color beige --output_dir simpath --input ~/code/sim/data/episode_states.test.csv --ids dc251799d2b7cbc1fee86fbf524f2bec --allow_diag false
     ```
 
-- `server/visualize_traces.js` - Visualizes prerecorded action traces.
+- `minos/server/visualize_traces.js` - Visualizes prerecorded action traces.
 
 #### Benchmarking
 
 Benchmarking scripts to test the performance of the simulator:
 
-- `server/benchmark.js` - Use to benchmark the javascript server component in standalone mode.
+- `minos/server/benchmark.js` - Use to benchmark the javascript server component in standalone mode.
 
-- `tools/benchmark.py` - Use to benchmark client-server communication through SocketIO. Allows for specification of sceneIds and episodes per scene to go through, various simulator configurations (sensory inputs to enable, rendering options) and for running with multiple simulators.
+- `minos/tools/benchmark.py` - Use to benchmark client-server communication through SocketIO. Allows for specification of sceneIds and episodes per scene to go through, various simulator configurations (sensory inputs to enable, rendering options) and for running with multiple simulators.
 
 ## News
 

@@ -22,6 +22,9 @@
   - name: normal          # surface normals
     type: normal
     encoding: xyza
+  near: 0.001                # camera near in meters
+  far: 20                    # camera far in meters
+  fov: 45                    # vertical field of view in degrees (>0 to <180)
   configuration: positional
   position: [[0, 0.6, 0]]
   orientation: [[0, 0, -1]]
@@ -39,6 +42,7 @@
   datatype: float32
   near: 0.1                  # camera near in meters
   far: 20                    # camera far in meters
+  fov: 45                    # vertical field of view in degrees (>0 to <180)
   metersToUnit: 1
   noise_model:
     name: kinect

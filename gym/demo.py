@@ -4,10 +4,8 @@ import argparse
 import gym
 import gym_minos
 
-import sys
-sys.path = ['..'] + sys.path
-from config import sim_config
-from config.sim_args import add_sim_args_basic
+from minos.config import sim_config
+from minos.config.sim_args import add_sim_args_basic
 
 
 def run_gym(sim_args):

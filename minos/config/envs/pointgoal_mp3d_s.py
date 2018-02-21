@@ -1,4 +1,4 @@
-from lib.util.measures import MeasureDistDirTime
+from minos.lib.util.measures import MeasureDistDirTime
 
 config = {
     'task': 'point_goal',
@@ -11,7 +11,7 @@ config = {
     'states_file': '../data/episode_states.mp3d.csv.bz2',
     'num_episodes_per_scene': 100,
     'max_states_per_scene': 10,
-    'scene_filter': lambda s: 2 < s['nrooms'] < 25 and s['nlevels'] == 1,
+    'scene_filter': lambda s: 2 < s['nrooms'] < 11,
     'episode_filter': lambda e: e['pathNumRooms'] > 0,
     'objective_size': 4 # For UNREAL
 }

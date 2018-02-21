@@ -10,7 +10,7 @@ import numpy as np
 # This is currently an experimental wrapper that wraps around the room simulator
 # It may make sense to wrap the Simulator and have several prespecified configurations
 #  (or have a base IndoorEnv and specific scenarios on top of it)
-from lib.RoomSimulator import RoomSimulator
+from minos.lib.RoomSimulator import RoomSimulator
 
 
 class IndoorEnv(gym.Env):
