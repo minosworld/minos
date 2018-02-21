@@ -10,5 +10,6 @@ config = {
     'states_file': '../data/episode_states.suncg.csv.bz2',
     'scene': {'arch_only': False, 'retexture': True, 'empty_room': False, 'dataset': 'p5dScene'},
     'scene_filter': lambda s: s['nrooms'] == 2,
-    'episode_filter': lambda e: e['pathNumDoors'] > 0
+    'episode_filter': lambda e: e['pathNumDoors'] > 0,
+    'objective_size': 4 # For UNREAL
 }
