@@ -61,7 +61,7 @@ def add_sim_args(parser):
                         help='Frame format')
     parser.add_argument('--save_video', type=str,
                         default='',
-                        help='Frame format')
+                        help='Video filename to save frames')
     parser.add_argument('--use_lights', action='store_true',
                         help='Whether to enable lights')
     parser.add_argument('--use_shadows', action='store_true',
