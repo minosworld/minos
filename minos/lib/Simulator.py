@@ -81,7 +81,7 @@ class Simulator:
         self.start_time = None
         self.stats_counter = Counter()
         self.id = params.get('id', 'sim00')
-        self._uuid = uuid.uuid1()
+        self._uuid = uuid.uuid4()
         self._rpcid = 0
         self._proc_sim = None
         self._proc_audio = None
