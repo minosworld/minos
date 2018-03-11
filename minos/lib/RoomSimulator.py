@@ -101,7 +101,8 @@ class RoomSimulator:
                 config['goal'] = {'roomIds': [room_id]}
             else:
                 object_id = ep_settings['goal']['id']
-                config['goal'] = {'objectIds': [object_id]}
+                if object_id:
+                    config['goal'] = {'objectIds': [object_id]}
         else:  # remove objectIds to reset to default goal selection strategy
             config['goal'] = {'objectIds': None, 'roomIds': None}
         if 'start' in ep_settings:
