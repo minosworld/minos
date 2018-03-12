@@ -22,7 +22,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
     ```
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.7/install.sh | bash
     source ~/.bashrc
-    nvm install
+    nvm install node
     ```
     If you use `zsh` instead of `bash`, replace all instances of `bash` with `zsh`.
     Confirm node installation is succesful using `node -v` at the terminal.
