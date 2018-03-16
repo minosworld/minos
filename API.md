@@ -11,7 +11,7 @@ A typical communication flow:
 
 ### Configuration
 
-The environment, agent and sensor configurations can be specified through preset configuration files under the [minos/config](config) directory.  Finer or dynamic configuration can be implemented by direct API calls, but these files are a good start for familiarization with the overall configuration space.
+The environment, agent and sensor configurations can be specified through preset configuration files under the [minos/config](minos/config) directory.  Finer or dynamic configuration can be implemented by direct API calls, but these files are a good start for familiarization with the overall configuration space.
 
 - The default sensor configuration is in [minos/config/sensors.yml](minos/config/sensors.yml).  It specifies the parameters for the default set of sensors and is commented at a high level.  Refer to the sensor API section below for more details.
 - The default agent configuration is in [minos/config/agent_continuous.yml](minos/config/agent_continuous.yml).  Comments are in the file, and details in the agent API section.  Alternative agent configurations can be found in [minos/config/agent_gridworld.yml](minos/config/agent_gridworld.yml) and [minos/config/agent_firstperson.yml](minos/config/agent_firstperson.yml).  The latter agent is convenient for smooth human control.
@@ -153,7 +153,7 @@ The simulator API is implemented in [minos/lib/Simulator.py](lib/Simulator.py). 
 
 4. `action`
 
-   Performs specified action with given input arguments.  See [Agent](Agent) for list of actions supported.
+   Performs specified action with given input arguments.  See Agent section below for list of actions supported.
    
    #### Action object
    ```
