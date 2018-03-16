@@ -4,7 +4,7 @@ import json
 import os
 
 from minos.lib.common import get_goal_for_task
-
+from minos.config import sim_config
 
 def str2bool(v):
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
@@ -58,7 +58,7 @@ def add_sim_args(parser):
                         help='Image height')
     parser.add_argument('--color_encoding',
                         default='rgba',
-                        help='Frame format')
+                        help='Color frame encoding format (rgba|gray)')
     parser.add_argument('--save_video', type=str,
                         default='',
                         help='Video filename to save frames')
@@ -80,9 +80,6 @@ def add_sim_args(parser):
     parser.add_argument('--audio', action='store_true',
                         default=False,
                         help='Audio enabled')
-    # parser.add_argument('--navmap', action='store_true',
-    #                     default=False,
-    #                     help='Use navigation map')
     parser.add_argument('--collision_mode',
                         default='raycast',
                         help='Collision detection mode')
@@ -149,6 +146,9 @@ def add_sim_args(parser):
     parser.add_argument('--agent_config', type=str,
                         default='',
                         help='Agent configuration to use (corresponds to agent config JSON file in config dir)')
+    parser.add_argument('--env_config',
+                        default='objectgoal_suncg_sf',
+                        help='Environment configuration file to use (corresponds to py file in config/envs dir)')
     parser.add_argument('--task', type=str,
                         default='object_goal',
                         help='Type of task to perform')
@@ -218,4 +218,6 @@ def parse_sim_args(parser):
         args.audio = {'port': 1112}
         args.port = 4899
 
-    return args
+    sim_args = sim_config.get(args.env_config, vars(args))
+
+    return sim_args

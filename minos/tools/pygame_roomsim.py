@@ -8,7 +8,7 @@ import traceback
 from minos.lib.RoomSimulator import RoomSimulator
 from minos.lib import common
 from minos.config import sim_config
-from minos.config.sim_args import add_sim_args_basic
+from minos.config.sim_args import parse_sim_args
 
 
 def interactive_loop(sim, args):
@@ -31,9 +31,9 @@ def interactive_loop(sim, args):
     font = pygame.font.SysFont("monospace", 12)
     pygame.key.set_repeat(500, 50)  # delay, interval
     nimages = 1
-    if hasattr(args, 'modality') and 'depth' in args.modality:
+    if 'modality' in args and 'depth' in args['modality']:
         nimages = 2
-    display_surf = pygame.display.set_mode((args.width * nimages, args.height), pygame.RESIZABLE | pygame.DOUBLEBUF)
+    display_surf = pygame.display.set_mode((args['width'] * nimages, args['height']), pygame.RESIZABLE | pygame.DOUBLEBUF)
 
     print('IJKL+Arrows = move agent, N = next state/scene, O = print observation, Q = quit')
     init_time = timer()
@@ -103,7 +103,7 @@ def interactive_loop(sim, args):
             else:  # assume rgba
                 img = img[:, :, :-1]
             surface = pygame.surfarray.make_surface(np.transpose(img, (1, 0, 2)))
-            display_surf.blit(surface, (args.width, 0))
+            display_surf.blit(surface, (args['width'], 0))
 
         if 'audio' in sensors:
             audio_data = sensors.get('audio').get('data')
@@ -127,13 +127,8 @@ def interactive_loop(sim, args):
 
 def main():
     parser = argparse.ArgumentParser(description='MINOS gym wrapper')
-    add_sim_args_basic(parser)
-    parser.add_argument('--env_config',
-                        default='objectgoal_suncg_sf',
-                        help='Environment configuration file')
-    args = parser.parse_args()
-    sim_args = sim_config.get(args.env_config, vars(args))
-    sim = RoomSimulator(sim_args)
+    args = parse_sim_args(parser)
+    sim = RoomSimulator(args)
     common.attach_exit_handler(sim.sim)
     try:
         print('Starting RoomSimulator...')

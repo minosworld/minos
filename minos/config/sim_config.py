@@ -48,7 +48,7 @@ sim_defaults = {
     'collision_detection': {'mode': 'navgrid'},
     'navmap': {'refineGrid': True, 'autoUpdate': True, 'allowDiagonalMoves': True, 'reverseEdgeOrder': False},
     'reward_type': 'dist_time',
-    'observations': {'color': True, 'forces': False, 'audio': False, 'objects': False, 'depth': False},
+    'observations': {'color': True, 'forces': False, 'audio': False, 'objects': False, 'depth': False, 'map': False},
     'color_encoding': 'rgba',
     'scene': {'arch_only': False, 'retexture': False, 'empty_room': False, 'dataset': 'p5dScene'},
 
