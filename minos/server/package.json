@@ -1,6 +1,6 @@
 {
   "name": "sstk-sim",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "MINOS: Multimodal Indoor Simulator",
   "scripts": {
     "server": "node --max-old-space-size=4096 server.js",
