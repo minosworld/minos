@@ -346,9 +346,10 @@ class Simulator:
         self._rpc('reset', callback=self.on_reset)
         return self.start_summary_info
 
-    def move_to(self, pos, angle):
-        """Move agent to position (x,y,z) and facing direction with angle degrees to +X axis. Returns success."""
-        return self._rpc('move_to', {'position': pos, 'angle': angle})
+    def move_to(self, pos=None, angle=None, tilt=None):
+        """Move agent to position (x,y,z), facing direction with angle radians
+        to +X axis, and with tilt radians from horizontal. Returns success."""
+        return self._rpc('move_to', {'position': pos, 'angle': angle, 'tilt': tilt})
 
     def set_goal(self, goal):
         """Set agent goal. Returns success."""
