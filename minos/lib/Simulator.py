@@ -157,6 +157,12 @@ class Simulator:
                 agent_cfg = yaml.load(f)
             params.agent = agent_cfg
 
+        # remove members that cannot be serialized and sent to simulator
+        if 'nonserializable' in params:
+            for nonserializable in params.nonserializable:
+                if nonserializable in params:
+                    del params[nonserializable]
+
     def __del__(self):
         if not self.killed:
             self.kill()

@@ -72,6 +72,9 @@ sim_defaults = {
     'episodes_per_scene_train': 10,  # DFP param
     'episode_schedule': 'train',  # DFP param
     'measure_fun': measures.MeasureDistDirTime(),
+
+    # these members are non-serializable
+    'nonserializable': ['measure_fun', 'scene_filter', 'episode_filter']
 }
 
 

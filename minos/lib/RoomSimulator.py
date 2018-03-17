@@ -25,10 +25,6 @@ class RoomSimulator:
         self.available_controls = params.get('available_controls',
                                              ['turnLeft', 'turnRight', 'forwards'])
         self.num_meas = self.measure_fun.num_meas
-        # remove members that cannot be serialized and sent to simulator
-        for nonserializable in ['measure_fun', 'scene_filter', 'episode_filter']:
-            if nonserializable in params:
-                del params[nonserializable]
         self.params = params
 
         self.continuous_controls = np.array([False for _ in self.available_controls])

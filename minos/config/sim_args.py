@@ -3,6 +3,7 @@ import csv
 import json
 import os
 
+from easydict import EasyDict as edict
 from minos.lib.common import get_goal_for_task
 from minos.config import sim_config
 
@@ -219,5 +220,5 @@ def parse_sim_args(parser):
         args.port = 4899
 
     sim_args = sim_config.get(args.env_config, vars(args))
-
+    sim_args = edict(sim_args)
     return sim_args
