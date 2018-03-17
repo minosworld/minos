@@ -34,6 +34,10 @@ class IndoorEnv(gym.Env):
         # obs_space = self._sim.get_observation_space
         #self.observation_space = spaces.Dict({"images": ..., "depth": ...})
 
+    @property
+    def simulator(self):
+        return self._sim.sim
+
     def _seed(self, seed=None):
         """Sets the seed for this env's random number generator(s).
         Note:
