@@ -43,7 +43,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 ## Documentation
 
-See the [API](API.md) document for an overview of the Simulator API and a reference of the available configuration parameters.
+See the [API](API.md) document for an overview of the Simulator API and a reference of the available configuration parameters. Please also refer to the [FAQ](FAQ.md) document for answers to common questions and resolutions for common errors.
 
 ## OpenAI gym example code
 

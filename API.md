@@ -11,17 +11,17 @@ A typical communication flow:
 
 ### Configuration
 
-The environment, agent and sensor configurations can be specified through preset configuration files under the [config](config) directory.  Finer or dynamic configuration can be implemented by direct API calls, but these files are a good start for familiarization with the overall configuration space.
+The environment, agent and sensor configurations can be specified through preset configuration files under the [minos/config](minos/config) directory.  Finer or dynamic configuration can be implemented by direct API calls, but these files are a good start for familiarization with the overall configuration space.
 
-- The default sensor configuration is in [config/sensors.yml](config/sensors.yml).  It specifies the parameters for the default set of sensors and is commented at a high level.  Refer to the sensor API section below for more details.
-- The default agent configuration is in [config/agent_continuous.yml](config/agent_continuous.yml).  Comments are in the file, and details in the agent API section.  Alternative agent configurations can be found in [config/agent_gridworld.yml](config/agent_gridworld.yml) and [config/agent_firstperson.yml](config/agent_firstperson.yml).  The latter agent is convenient for smooth human control.
-- Various environment and task configuration presets are found in [config/envs](config/envs).
-- Object instance replacement macros (for now, used to substitute closed and semi-open doors with only their door frame) are specified in [config/replace_doors.json](config/replace_doors.json).
-- The default configuration set is assembled in [config/index.json](config/index.json).
+- The default sensor configuration is in [minos/config/sensors.yml](minos/config/sensors.yml).  It specifies the parameters for the default set of sensors and is commented at a high level.  Refer to the sensor API section below for more details.
+- The default agent configuration is in [minos/config/agent_continuous.yml](minos/config/agent_continuous.yml).  Comments are in the file, and details in the agent API section.  Alternative agent configurations can be found in [minos/config/agent_gridworld.yml](minos/config/agent_gridworld.yml) and [minos/config/agent_firstperson.yml](minos/config/agent_firstperson.yml).  The latter agent is convenient for smooth human control.
+- Various environment and task configuration presets are found in [minos/config/envs](minos/config/envs).
+- Object instance replacement macros (for now, used to substitute closed and semi-open doors with only their door frame) are specified in [minos/config/replace_doors.json](minos/config/replace_doors.json).
+- The default configuration set is assembled in [minos/config/index.json](minos/config/index.json).
 
 ### API functions
 
-The simulator API is implemented in [lib/Simulator.py](lib/Simulator.py).  The main functions have pydoc strings, and are also described below.
+The simulator API is implemented in [minos/lib/Simulator.py](lib/Simulator.py).  The main functions have pydoc strings, and are also described below.
 
 1. `init`
 
@@ -42,9 +42,11 @@ The simulator API is implemented in [lib/Simulator.py](lib/Simulator.py).  The m
      scene: { fullId: ... }, # Load options for scene
      observations: {         # What type of observations to return (requires corresponding sensor specification)
        color: true,
+       forces: false,
        objects: false,
        depth: false,
-       audio: false
+       audio: false,
+       map: false
      },
      sensors: [              # Sensor specification array (see sensor configuration section)
        {...},
@@ -151,7 +153,7 @@ The simulator API is implemented in [lib/Simulator.py](lib/Simulator.py).  The m
 
 4. `action`
 
-   Performs specified action with given input arguments.  See [Agent](Agent) for list of actions supported.
+   Performs specified action with given input arguments.  See Agent section below for list of actions supported.
    
    #### Action object
    ```
@@ -165,26 +167,34 @@ The simulator API is implemented in [lib/Simulator.py](lib/Simulator.py).  The m
    ```yaml
    {
      "time": 1.5,  # time in seconds since start of current episode
+     "collision": true,  # whether a collision between the agent and environment was detected this step
      "observation": {
-       "sensors": [
+       "sensors": [  # returned observations for all active sensors
          { "name": "rgb1", "frame": [pixels], "shape": [w,h,d], "encoding": "rgba", ... },
          { "name": "force1", [fx0,fy0,fz0,...], "shape": [k,n,3], "encoding": "raw_contact", ... },
          { "name": "objectmask", "frame": [pixels], "shape": [w,h,1], "encoding": "indexed",
            "index": [object ids], "counts": {index to count}, },
          { "name": "audio1", "frame": [buffer], "shape": [k,n], "encoding": "pcm", ... }
        ],
-       "measurements": {
-         "collision": true,
+       "measurements": {  # returned non-sensor measurements (goal distance and direction)
          "distance_to_goal": [d0,d1,...],
-         "offset_to_goal": [dx0,dy0,dz0,dx1,dy1,dz1,...]
+         "offset_to_goal": [dx0,dy0,dz0,dx1,dy1,dz1,...],
+         "direction_to_goal": [dx0,dy0,dz0,dx1,dy1,dz1,...],
+         "shortest_path_to_goal": {"distance": d, "direction": [dx,dy,dz]}
+       },
+       "roomInfo": {  # current room information
+         "id": "0_1",
+         "roomType": "Bathroom"
+       },
+       "map": {  # top-down map image with shortest path plotted
+         "data": [pixels], "shape": [w,h,4]
        }
      },
-     done: false,
-     success: false,
-     info: {
-       agent_state: ...,
-       goal: ...
-     }
+     "info": {
+       "agent_state": {"position": [x,y,z], "orientation":[dx,dy,dz]},  # current agent state
+     },
+     "success": false,  # whether this step ended with success for the episode task
+     "measurements": [m0, m1, m2, m3, ...]  # arbitrary measurement values returned by measurement_fun function specified in config
    }
     ```
 
