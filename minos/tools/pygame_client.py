@@ -71,7 +71,8 @@ def draw_forces(forces, display_surf, area):
 def draw_offset(offset, display_surf, area, color=(0,0,255)):
     dir = (offset[0], offset[2])
     mag = math.sqrt(dir[0]*dir[0] + dir[1]*dir[1])
-    dir = (dir[0]/mag, dir[1]/mag)
+    if mag:
+        dir = (dir[0]/mag, dir[1]/mag)
     size = round(0.45*min(area.width, area.height))
     center = area.center
     target = (round(center[0]+dir[0]*size), round(center[1]+dir[1]*size))
