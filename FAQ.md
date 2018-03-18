@@ -11,8 +11,10 @@ If you observe any issues or bugs, please check the log files in `logs/<timestam
 #### Setting the field of view for camera sensors
 The `fov` parameter in `config/sensors.yml` controls the vertical field of view.  The horizontal field of view is determined by the aspect ratio of the image and the vertical field of view.
 
-### Getting shortest path to goal and navigation map data
+#### Getting semantic segmentation masks
+To obtain observations of per-pixel object or room category labels, you can use the `objectType` or `roomType` sensor types respectively (enabled through `--sensor objectType` or `--sensor roomType`).  Object and room instance masks (unique id for each instance) are provided through the `objectId` and `roomId` sensors.  To use `objectType` or `roomType` sensors please set the category-to-index mapping through the `--objecttypes_file` and `--roomtypes_file` arguments.  Predefined mappings for SUNCG are available in `minos/server/node_modules/sstk/server/static/data/suncg/objectTypes.csv` and `minos/server/node_modules/sstk/server/static/data/suncg/roomTypes.csv` respectively.  The category index and instance index masks can be combined to obtain category instance masks.
 
+### Getting shortest path to goal and navigation map data
 Information about the shortest path is given at each step in `["observation"]["measurements"]["shortest_path_to_goal"]`.  If the map sensor is enabled (through `--sensors map`) then there will also be data in `["observation"]["map"]` giving a top-down image view of the environment, and the shortest path from the current agent position to the goal.
 
 ### Common questions
