@@ -1,6 +1,6 @@
 {
   "name": "sstk-sim",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "MINOS: Multimodal Indoor Simulator",
   "scripts": {
     "server": "node --max-old-space-size=4096 server.js",
@@ -16,7 +16,7 @@
     "seedrandom": "^2.4.2",
     "shelljs": "^0.7.8",
     "socket.io": "^1.7.4",
-    "sstk": "smartscenes/sstk#v0.5.1"
+    "sstk": "smartscenes/sstk#v0.5.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
