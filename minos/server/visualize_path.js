@@ -8,11 +8,14 @@ var cmd = require('sstk/ssc/ssc-parseargs');
 var THREE = global.THREE;
 var _ = STK.util;
 
+STK.Constants.setVirtualUnit(1);  // set to meters
+
 cmd
   .version('0.0.1')
   .description('Visualize simulator episodes')
   .option('--input <file>', 'File with presampled episodes')
-  .option('--ids <ids>', 'Set of ids to filter on', STK.util.cmd.parseList)
+  .option('--ids <ids>', 'Set of scene ids to filter on', STK.util.cmd.parseList)
+  .option('--episodes <ids>', 'Set of episode indices to filter on', STK.util.cmd.parseList)
   .option('--episodes_per_scene <n>', 'Limit to number of episodes per scene', STK.util.cmd.parseInt, 0)
   .option('--output_dir <dir>', 'Base directory for output files', '.')
   .option('--use_subdir [flag]','Put output into subdirectory per id [true]', STK.util.cmd.parseBoolean, true)
@@ -199,7 +202,6 @@ function visualizeEpisodes(episodesByScene) {
           var views = cameraControls.generateViews(sceneBBox, cmd.width, cmd.height);
           cameraControls.viewTarget(views[defaultViewIndex]);  // top down view
           //cameraControls.viewTarget({ targetBBox: sceneBBox, viewIndex: 4, distanceScale: 1.1 });
-
           renderer.renderToPng(scene, camera, outbasename);
           setTimeout( function() { cb(); }, 0);
         }
@@ -247,9 +249,17 @@ function visualizeEpisodes(episodesByScene) {
   });
 }
 
-STK.Constants.setVirtualUnit(1);  // set to meters
 var s = STK.Constants.metersToVirtualUnit;
 var episodes = STK.fs.loadDelimited(cmd.input).data;
+STK.util.each(episodes, function(episode,index) {
+  episode.episodeId = index;
+});
+if (cmd.episodes) {
+  var episodeIds = STK.util.map(cmd.episodes, function(x) { return parseInt(x); });
+  episodes = STK.util.filter(episodes, function(episode) {
+    return episodeIds.indexOf(episode.episodeId) >= 0;
+  });
+}  
 if (cmd.ids) {
   episodes = STK.util.filter(episodes, function(episode) {
     return cmd.ids.indexOf(episode.sceneId) >= 0;
@@ -262,5 +272,6 @@ STK.util.forEach(episodes, function(episode) {
 episodesByScenes = STK.util.groupBy(episodes, function (r) {
   return r.sceneId;
 });
+console.log('Visualize ' + episodes.length + ' episodes for ' + STK.util.size(episodesByScenes) + ' scene');
 visualizeEpisodes(episodesByScenes);
 
