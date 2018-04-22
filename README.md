@@ -31,7 +31,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
 
-1. Install the minos Python module by running `pip3 install -e .` in the root of the repository.
+1. Install the minos Python module by running `pip3 install -e . -r requirements.txt` in the root of the repository.
 
 1. Extract the SUNCG and/or MP3D data packages under `$HOME/work/suncg` and/or `$HOME/work/mp3d`, or under another parent directory of your choice.  If you choose a directory other than `$HOME/work` as the dataset parent directory remember to run all remaining commands with the prefix `NODE_BASE_URL=path/to/data_parent_dir`.
 
