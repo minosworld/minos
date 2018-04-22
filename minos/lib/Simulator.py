@@ -3,8 +3,9 @@ import copy
 import json
 import logging as log
 import os
+import platform
 import pprint
-import resource
+#import resource
 import signal
 import subprocess as sp
 import time
@@ -111,7 +112,7 @@ class Simulator:
                                        cwd=params.SIM_PATH).rstrip(),
         info = {
             'sim_id': self.id,
-            'machine': os.uname()[1],
+            'machine': platform.node(), #os.uname()[1],
             'sim_git_hash': sim_git_hash[0],
             'stk_git_hash': stk_git_hash[0]
         }
@@ -230,7 +231,8 @@ class Simulator:
                                                  out_handler=None, err_handler=None,
                                                  args=simserver_cmd,
                                                  #bufsize=0,
-                                                 env=my_env, preexec_fn=os.setsid, cwd=path_sim)
+                                                 start_new_session=True,
+                                                 env=my_env, cwd=path_sim)
                 time.sleep(1)
             if not self._proc_audio and self.params.observations.audio:
                 path_audio = os.path.join(self.params.SIM_PATH, 'r2sim')
@@ -247,7 +249,8 @@ class Simulator:
                                                    out_handler=None, err_handler=None,
                                                    args=r2sim_cmd,
                                                    #bufsize=0,
-                                                   preexec_fn=os.setsid, cwd=path_audio)
+                                                   start_new_session=True,
+                                                   cwd=path_audio)
                 time.sleep(1)
             if not self.check_status():
                 return False

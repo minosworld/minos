@@ -1,4 +1,4 @@
-https://github.com/msavva/socketIO-client-2/zipball/master
+git+https://github.com/msavva/socketIO-client-2.git@master#egg=socketIO-client-2-0.7.4
 numpy
 scipy
 easydict
