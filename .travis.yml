@@ -1,17 +1,6 @@
-matrix:
-  include:
-    - language: node_js
-      node_js: 
-        - 8
-        - 9
-      before_install:
-        - cd server
-      install:
-        - npm install
-
-   - language: python
-      python:
-        - "3.5"
-        - "3.6"
-      install:
-        - pip3 install -e . -r requirements.txt
+language: python
+python:
+  - "3.5"
+  - "3.6"
+install:
+  - pip3 install -e . -r requirements.txt
