@@ -37,7 +37,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Check that everything works by running the interactive client through `python3 -m minos.tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the W/A/S/D keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
     - `python3 -m minos.tools.pygame_client --empty_room` : navigation in empty SUNCG environments
-    - `python3 -m minos.tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy` : an example Matterport3D environment
+    - `python3 -m minos.tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy --task point_goal` : an example Matterport3D environment
     - `python3 -m minos.tools.pygame_client --agent_config agent_gridworld` : discrete navigation agent
     - `python3 -m minos.tools.pygame_client --depth -s normal -s objectId -s objectType -s map --navmap --width 128 --height 128` : multimodal agent with depth, normals, object instance and category frames
 
