@@ -10,7 +10,8 @@ env:
 services:
   - docker
 before_install:
-  - docker pull garthk/node-for-headless-webgl
+  - sudo apt-get install build-essential libxi-dev libglu1-mesa-dev libglew-dev
+  - docker pull garthk/node-for-headless-webgl 
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - cd minos/server && npm install && cd ../..
