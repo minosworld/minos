@@ -147,6 +147,35 @@ sio.on('connection', function (socket) {
     });
   });
 
+  socket.on('reset', function (p, respCb) {
+    if (sim) {
+      //console.time('Timing reset');
+      sim.reset(function(err, sceneState) {
+        if (sceneState) {
+          // wait for textures to load (maybe new objects were loaded)
+          //console.log('reset... waiting for all images to load');
+          //console.time('Timing waitImages');
+          STK.util.waitImagesLoaded(function () {
+            //console.timeEnd('Timing waitImages');
+            sim.getEpisodeInfo({}, function(err, summary) {
+              //console.timeEnd('Timing reset');
+              if (err) {
+                respCb({ status: 'error', message: err });
+              } else {
+                respCb({status: 'OK', data: serializeForSocketIO(summary)});
+              }
+            });
+          });
+        } else {
+          respCb({status: 'error', message: err});
+        }
+      });
+    } else {
+      console.error('Simulator is not initialized yet!');
+      respCb({ status: 'error', message: 'Simulator is not initialized yet!' });
+    }
+  });
+
   socket.on('configure', function (opts, respCb) {
     if (sim) {
       var data = sim.configure(opts);
@@ -242,22 +271,6 @@ sio.on('connection', function (socket) {
     if (sim) {
       sim.seed(p);
       respCb({ status: 'OK', data: true });
-    } else {
-      console.error('Simulator is not initialized yet!');
-      respCb({ status: 'error', message: 'Simulator is not initialized yet!' });
-    }
-  });
-
-  socket.on('reset', function (p, respCb) {
-    if (sim) {
-      sim.reset();
-      sim.getEpisodeInfo({}, function(err, summary) {
-        if (err) {
-          respCb({ status: 'error', message: err });
-        } else {
-          respCb({status: 'OK', data: serializeForSocketIO(summary)});
-        }
-      });
     } else {
       console.error('Simulator is not initialized yet!');
       respCb({ status: 'error', message: 'Simulator is not initialized yet!' });

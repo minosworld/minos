@@ -104,8 +104,9 @@ function checkState(state, cb) {
       });
     });
   } else {
-    simulator.reset();
-    setTimeout( function() { validateShortestPath(state, cb); }, 0);
+    simulator.reset(function(err, sceneState) {
+      setTimeout( function() { validateShortestPath(state, cb); }, 0);
+    });
   }
 }
 
