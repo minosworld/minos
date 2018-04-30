@@ -1,7 +1,9 @@
 sudo: required
+os:
+  - "linux"
+  - "osx"
 language: python
 python:
-  - "3.5"
   - "3.6"
 env:
   - TRAVIS_NODE_VERSION="8"
@@ -10,8 +12,8 @@ env:
 services:
   - docker
 before_install:
-  - sudo apt-get install build-essential libxi-dev libglu1-mesa-dev libglew-dev
-  - docker pull garthk/node-for-headless-webgl 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install build-essential libxi-dev libglu1-mesa-dev libglew-dev; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull garthk/node-for-headless-webgl; fi
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - cd minos/server && npm install && cd ../..
