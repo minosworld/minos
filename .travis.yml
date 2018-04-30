@@ -20,8 +20,6 @@ before_install:
     elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
        brew update
        brew upgrade python
-       virtualenv env -p python3
-       source env/bin/activate
     fi
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
