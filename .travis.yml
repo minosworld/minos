@@ -32,4 +32,4 @@ install:
   - cd minos/server && npm install && cd ../..
   - pip3 install -e . -r requirements.txt
 script: 
-  - echo 'TODO: Add tests'
+  - echo
