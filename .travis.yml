@@ -1,14 +1,15 @@
 sudo: required
-os:
-  - "linux"
-  - "osx"
 language: python
-python:
-  - "3.6"
 env:
   - TRAVIS_NODE_VERSION="8"
   - TRAVIS_NODE_VERSION="9"
   - TRAVIS_NODE_VERSION="10"
+matrix:
+  - os: linux
+    sudo: required
+    python: 3.6
+  - os: osx  
+    language: generic
 services:
   - docker
 before_install:
