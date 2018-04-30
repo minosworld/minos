@@ -11,6 +11,12 @@ matrix:
     - os: osx  
       language: generic
       env: TRAVIS_NODE_VERSION="8"
+    - os: osx  
+      language: generic
+      env: TRAVIS_NODE_VERSION="9"
+    - os: osx  
+      language: generic
+      env: TRAVIS_NODE_VERSION="10"
 services:
   - docker
 before_install:
