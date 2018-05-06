@@ -16,6 +16,8 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 ## Installing
 
+0. MINOS can be used on Linux and MacOS systems. Use under Windows is possible but not recommended.
+
 1. Request and download the [SUNCG](http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  For Matterport3D, use the invocation `download_mp.py --task_data minos -o .` with the provided download script.  This will download a 5.1GB zip archive which expands to approximately 6.3GB.  For SUNCG, if you are already a registered user, please send another email to request the additional MINOS data packages.  The SUNCG data package is a 5.0GB zip archive which expands to approximately 8.8GB.
 
 1. Install [node.js](https://nodejs.org/) using the Node Version Manager ([nvm](https://github.com/creationix/nvm)).
@@ -27,7 +29,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
     If you use `zsh` instead of `bash`, replace all instances of `bash` with `zsh`.
     Confirm node installation is succesful using `node -v` at the terminal.
 
-1. Build the MINOS server modules by running `npm install` inside the `server` directory.  This process will download and compile all server module dependencies and might take a few minutes.
+1. Build the MINOS server modules by running `npm install` inside the `server` directory.  This process will download and compile all server module dependencies and might take a few minutes. There are some prerequisites for the build process in Ubuntu, they can be installed using `sudo apt-get install build-essential libxi-dev libglu1-mesa-dev libglew-dev libvips`.
 
 1. Make sure you have a Python3 installation with pip3 available on your command line.  The following steps can be carried out in a virtualenv, or with the system python installation.
 
@@ -37,7 +39,7 @@ Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or d
 
 1. Check that everything works by running the interactive client through `python3 -m minos.tools.pygame_client`, invoked from the root of the repository.  You should see a live view which you can control with the W/A/S/D keys and the arrow keys.  This client can be configured through various command line arguments. Run with the `--help` argument for an overview and try some of these other examples:
     - `python3 -m minos.tools.pygame_client --empty_room` : navigation in empty SUNCG environments
-    - `python3 -m minos.tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy` : an example Matterport3D environment
+    - `python3 -m minos.tools.pygame_client --source mp3d --scene_ids 17DRP5sb8fy --task point_goal` : an example Matterport3D environment
     - `python3 -m minos.tools.pygame_client --agent_config agent_gridworld` : discrete navigation agent
     - `python3 -m minos.tools.pygame_client --depth -s normal -s objectId -s objectType -s map --navmap --width 128 --height 128` : multimodal agent with depth, normals, object instance and category frames
 

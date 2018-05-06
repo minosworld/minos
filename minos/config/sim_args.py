@@ -116,6 +116,11 @@ def add_sim_args(parser):
                         default=False,
                         type=str2bool,
                         help='Enable mirrors')
+    parser.add_argument('--add_object_at_goal',
+                        nargs='?', const='True',
+                        default=False,
+                        type=str2bool,
+                        help='Add visible target object at goal location')
     parser.add_argument('--source', type=str,
                         default='p5dScene',
                         help='Default data source')
@@ -210,6 +215,15 @@ def parse_sim_args(parser):
     if args.source == 'p5dScene':
         args.scene['defaultModelFormat'] = 'obj'
         args.scene['defaultSceneFormat'] = 'suncg'
+
+    if args.add_object_at_goal:
+        # print('add object at goal')
+        args.modifications = [{
+            'name': 'add',
+            'modelIds': 'p5d.s__1957',
+            'format': 'obj',
+            'positionAt': 'goal'
+        }]
 
     args.goal = get_goal_for_task(args.task)
     args.audio = {'debug': args.debug, 'debug_memory': args.debug_audio_memory}
