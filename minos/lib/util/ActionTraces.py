@@ -3,7 +3,7 @@ import csv
 
 # TODO(MS) get rid of this default task-to-goal mapping by storing goal specs in action trace header
 TASK_TO_DEFAULT_GOAL = {
-    'point_goal': {'type': 'position', 'position': 'random', 'radius': 0.25}
+    'point_goal': {'type': 'position', 'position': 'random', 'radius': 0.25},
     'object_goal': {'type': 'object', 'categories': ['arch', 'door'], 'select': 'random'},
     'room_goal': {'type': 'room', 'minRooms': 1, 'roomTypes': 'any', 'select': 'random'}
 }
