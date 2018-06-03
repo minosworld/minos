@@ -2,7 +2,7 @@ from minos.lib.util.measures import MeasureDistDirTime
 
 config = {
     'task': 'point_goal',
-    'goal': {'position': 'random', 'radius': 0.25},
+    'goal': {'type': 'position', 'position': 'random', 'radius': 0.25},
     'measure_fun': MeasureDistDirTime(goal_dist_threshold=0.4),
     'reward_type': 'dist_time',
     'agent': {'radialClearance': 0.2},

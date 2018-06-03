@@ -85,7 +85,7 @@ function checkState(state, cb) {
   simulator.configure({
     scene: _.defaults({ fullId: sceneId }, sceneDefaults),
     start: { position: [state.startX, state.startY, state.startZ], angle: state.startAngle },
-    goal: { position: [state.goalX, state.goalY, state.goalZ], objectIds: state.goalObjectId }
+    goal: { type: 'position', position: [state.goalX, state.goalY, state.goalZ], objectIds: state.goalObjectId }
   });
 
   var gridname = outputDir + '/' + state.sceneId + '.' + archType + '.grid.json';

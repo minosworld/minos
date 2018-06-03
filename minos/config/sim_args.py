@@ -4,7 +4,6 @@ import json
 import os
 
 from easydict import EasyDict as edict
-from minos.lib.common import get_goal_for_task
 from minos.config import sim_config
 
 def str2bool(v):
@@ -225,7 +224,6 @@ def parse_sim_args(parser):
             'positionAt': 'goal'
         }]
 
-    args.goal = get_goal_for_task(args.task)
     args.audio = {'debug': args.debug, 'debug_memory': args.debug_audio_memory}
     args.actionTraceLogFields = ['forces']
     args.auto_start = not args.manual_start

@@ -113,27 +113,27 @@ The simulator API is implemented in [minos/lib/Simulator.py](lib/Simulator.py). 
    
    To specify a point as a goal (with radius r as a distance threshold):
    ```
-      { 'position': [x, y, z], 'radius': r }
+      { 'type': 'position', 'position': [x, y, z], 'radius': r }
    ```
    To specify object categories as goals and select a random instance of the category as the goal:
    ```
-      { 'categories': ['arch', 'door'], 'select': 'random' }
+      { 'type': 'object', 'categories': ['arch', 'door'], 'select': 'random' }
    ```
-   To specify room types as goals and select a random room of the category as the goal:
+   To specify room types as goals and select the random room of the category as the goal:
    ```
-      { 'roomTypes': ['bedroom', 'bathroom'], 'select': 'random' }
+      { 'type': 'room', 'roomTypes': ['bedroom', 'bathroom'], 'select': 'random' }
    ```
    To specify instances of a model id as a goal, and select the closest from start as the goal:
    ```
-      { 'modelIds': ['3dw.abc...', '3dw.efg...'], 'select': 'closest' }
+      { 'type': 'object', 'modelIds': ['3dw.abc...', '3dw.efg...'], 'select': 'closest' }
    ```
    To specify a specific object id as a goal:
    ```
-      { 'objectIds': ['0_12'] }
+      { 'type': 'object', 'objectIds': ['0_12'] }
    ```
    To specify a specific room id as the goal:
    ```
-      { 'roomIds': ['0_1'] }
+      { 'type': 'room', 'roomIds': ['0_1'] }
    ```
 
    #### Navigation map

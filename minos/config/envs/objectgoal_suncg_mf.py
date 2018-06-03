@@ -2,7 +2,7 @@ from minos.lib.util.measures import MeasureDistDirTime
 
 config = {
     'task': 'object_goal',
-    'goal': {'categories': ['arch', 'door'], 'select': 'random', 'dist_from_bbox': True},
+    'goal': {'type': 'object', 'categories': ['arch', 'door'], 'select': 'random', 'dist_from_bbox': True},
     'measure_fun': MeasureDistDirTime(),
     'reward_type': 'dist_time',
     'agent': {'radialClearance': 0.2},

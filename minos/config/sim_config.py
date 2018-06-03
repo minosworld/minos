@@ -61,7 +61,7 @@ sim_defaults = {
 
     # task params
     'task': 'room_goal',
-    'goal': {'roomTypes': 'any', 'select': 'random'},
+    'goal': {'type': 'room', 'roomTypes': 'any', 'select': 'random'},
     'scenes_file': '../data/scenes.multiroom.csv',
     'states_file': '../data/episode_states.suncg.csv.bz2',
     'roomtypes_file': '../data/roomTypes.suncg.csv',

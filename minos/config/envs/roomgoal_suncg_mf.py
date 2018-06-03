@@ -2,7 +2,7 @@ from minos.lib.util.measures import MeasureGoalRoomType
 
 config = {
     'task': 'room_goal',
-    'goal': {'minRooms': 1, 'roomTypes': 'any', 'select': 'random'},
+    'goal': {'type': 'room', 'minRooms': 1, 'roomTypes': 'any', 'select': 'random'},
     'measure_fun': MeasureGoalRoomType(),
     'reward_type': 'dist_time',
     'agent': {'radialClearance': 0.2},

@@ -46,24 +46,6 @@ def ensure_dir_exists(path):
             raise
 
 
-def get_goal_for_task(task, goals=None):
-    # set goal depending on task type
-    if task == 'room_goal':
-        goal = {'minRooms': 1, 'roomTypes': 'any', 'select': 'random'}
-    elif task == 'point_goal':
-        goal = {'position': 'random', 'radius': 0.25}
-    elif task == 'door_goal':
-        goal = {'categories': ['arch', 'door'], 'select': 'random'}
-    else:  # default to door_goal
-        goal = {'categories': ['arch', 'door'], 'select': 'random'}
-
-    # if objectId goals provided, override default task goals
-    if goals:
-        goal = {'objectIds': [g['actionArgs'] for g in goals]}
-
-    return goal
-
-
 def observation_to_reward(reward_type, observation, meas, term, success, last_observation, frame_skip):
     if reward_type == 'path_delta':
         if term and success:
