@@ -84,6 +84,8 @@ def update_dict(d, u):
             if isinstance(v, collections.Mapping):
                 d[k] = update_dict(d.get(k, {}), v)
             else:
+                if v is None and d.get(k):  # avoid overwriting with None
+                    continue
                 d[k] = v
     return d
 
