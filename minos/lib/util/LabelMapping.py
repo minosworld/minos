@@ -9,6 +9,10 @@ class LabelMapping:
         self.default_index = default_index
 
     def get_index(self, label):
+        # TODO(MS) this is a hack, we should take into account more than first label if multi-labeled
+        if isinstance(label, list):
+            label = label[0]
+
         if label in self.mapping:
             return self.mapping[label]['index']
         else:
