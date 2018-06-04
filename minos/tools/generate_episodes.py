@@ -9,10 +9,12 @@ from minos.lib.Simulator import Simulator
 
 random.seed(12345678)
 
+EPISODE_ID = 0
+
 
 def process_scene(sim, dataset, scene_id, f, level, num_levels, n_episodes, scene_counter=0):
     if scene_counter == 0:
-        header = ['sceneId', 'level',
+        header = ['episodeId', 'task', 'sceneId', 'level',
                   'startX', 'startY', 'startZ', 'startAngle', 'startTilt',
                   'goalRoomId', 'goalRoomType', 'goalObjectId', 'goalObjectType',
                   'goalX', 'goalY', 'goalZ', 'goalAngle', 'goalTilt',
@@ -61,7 +63,9 @@ def run(args):
 
 
 def write_configuration(f, c, level):
+    global EPISODE_ID
     scene_id = c.sceneId.split('.')[1]
+    task = c.task
     s = c.start
     sp = s.position
     sangle = s.angle
@@ -86,12 +90,13 @@ def write_configuration(f, c, level):
     path_rooms = path.rooms if valid_path else []
     dist = math.sqrt((sp[0] - gp[0])**2 + (sp[1] - gp[1])**2 + (sp[2] - gp[2])**2)
     p = '.3f'  # precision for floats
-    f.write(f'{scene_id},{level:d},'
+    f.write(f'{EPISODE_ID},{task[0]},{scene_id},{level:d},'
         f'{sp[0]:{p}},{sp[1]:{p}},{sp[2]:{p}},{sangle:{p}},{stilt:.0f},'  # NOTE lower precision on stilt since always 0
         f'{groomid},{groomtype},{gid},{gobjecttype},'
         f'{gp[0]:{p}},{gp[1]:{p}},{gp[2]:{p}},{gangle:.0f},{gtilt:.0f},'  # NOTE lower precision on gangle and gtilt since always 0
         f'{dist:{p}},{path_dist:{p}},{len(path_doors):d},{":".join(path_doors)},'
         f'{len(path_rooms):d},{":".join(str(r) for r in path_rooms)}\n')
+    EPISODE_ID += 1
 
 
 def main():

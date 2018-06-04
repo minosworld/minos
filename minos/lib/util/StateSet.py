@@ -161,9 +161,19 @@ class StateSet:
                 for v in ['episodeId', 'pathNumDoors', 'pathNumRooms', 'level']:
                     r[v] = int(r[v]) if v in r else None
                 scene_id = r['sceneId']
+                task_id = r.get('task', '')
+                if task_id == 'p':
+                    task = 'point_goal'
+                elif task_id == 'o':
+                    task = 'object_goal'
+                elif task_id == 'r':
+                    task = 'room_goal'
+                else:  # unknown or no task_id, default to point_goal
+                    task = 'point_goal'
                 scene_states = self.states_by_scene.setdefault(scene_id, [])
                 rec = {
-                    'episode_id': counter,
+                    'episode_id': r.get('episodeId', counter),
+                    'task': task,
                     'scene_id': r['sceneId'],
                     'room_id': r['roomId'],
                     'start': {'position': [r['startX'], r['startY'], r['startZ']],
