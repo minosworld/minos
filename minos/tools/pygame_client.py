@@ -231,7 +231,7 @@ def interactive_loop(sim, args):
 
     # Other initialization
     scene_index = 0
-    scene_source = args.source
+    scene_dataset = args.scene.dataset
 
     init_time = timer()
     num_frames = 0
@@ -269,7 +269,7 @@ def interactive_loop(sim, args):
                 if not state:  # roll over to beginning
                     print('Restarting from beginning of states file...')
                     state = args.state_set.get_next_state()
-                id = scene_source + '.' + state['scene_id']
+                id = scene_dataset + '.' + state['scene_id']
                 print('next_scene loading %s ...' % id)
                 sim.set_scene(id)
                 sim.move_to(state['start']['position'], state['start']['angle'])
@@ -277,7 +277,7 @@ def interactive_loop(sim, args):
             elif prev_key is 'n':
                 scene_index = (scene_index + 1) % len(args.scene_ids)
                 scene_id = args.scene_ids[scene_index]
-                id = scene_source + '.' + scene_id
+                id = scene_dataset + '.' + scene_id
                 print('next_scene loading %s ...' % id)
                 sim.set_scene(id)
                 sim.episode_info = sim.start()

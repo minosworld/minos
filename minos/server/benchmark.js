@@ -13,7 +13,7 @@ cmd
   .option('-p, --port [port]', 'Port to send pixels [default: -1]', -1)
   .option('-w, --width [width]', 'Output image width [84]', STK.util.cmd.parseInt, 84)
   .option('-h, --height [height]', 'Output image height [84]', STK.util.cmd.parseInt, 84)
-  .option('--source [source]', 'Scene data source [p5dScene]', 'p5dScene')
+  .option('--dataset [dataset]', 'Scene dataset [p5dScene]', 'p5dScene')
   .option('--id [id]', 'Scene id [default: 0020d9dab70c6c8cfc0564c139c82dce]', '0020d9dab70c6c8cfc0564c139c82dce')
   .option('--color_encoding [rgba|gray]', 'Type of frame output', 'gray')
   .option('--num_steps [num]', 'Number of steps to simulate', STK.util.cmd.parseInt, 1000)
@@ -22,7 +22,7 @@ cmd
   .option('--busywait [num]', 'Number of seconds to busywait for a command (for debugging busy server)', STK.util.cmd.parseInt)
   .parse(process.argv);
 
-var fullId = cmd.source + '.' + cmd.id;
+var fullId = cmd.dataset + '.' + cmd.id;
 console.log(fullId);
 
 STK.assets.AssetGroups.registerDefaults();

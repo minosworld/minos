@@ -20,7 +20,7 @@ cmd
   .option('--episode_ids <ids>', 'Set of episode ids to filter on', STK.util.cmd.parseList)
   .option('--output_dir <dir>', 'Base directory for output files', '.')
   .option('--use_subdir [flag]','Put output into subdirectory per id [false]', STK.util.cmd.parseBoolean, false)
-  .option('--source <source>', 'Scene or model source [default: p5dScene]', 'p5dScene')
+  .option('--dataset <dataset>', 'Scene or model dataset [default: p5dScene]', 'p5dScene')
   .option('--show_forces [flag]', 'Show action trace forces [true]', STK.util.cmd.parseBoolean, true)
   .option('--show_orientations [flag]', 'Show action trace orientations [false]', STK.util.cmd.parseBoolean, false)
   .option('--show_path [flag]', 'Show action trace path [true]', STK.util.cmd.parseBoolean, true)
@@ -49,14 +49,14 @@ if (!cmd.trace_file) {
 STK.assets.AssetGroups.registerDefaults();
 var assets = require('sstk/ssc/data/assets.json');
 var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.source]);
+STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.dataset]);
 if (cmd.format) {
   STK.assets.AssetGroups.setDefaultFormat(cmd.format);
 }
 
-var assetGroup = assetManager.getAssetGroup(cmd.source);
+var assetGroup = assetManager.getAssetGroup(cmd.dataset);
 if (!assetGroup) {
-  console.log('Unrecognized asset source ' + cmd.source);
+  console.log('Unrecognized asset dataset ' + cmd.dataset);
   return;
 }
 

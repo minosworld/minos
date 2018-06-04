@@ -10,7 +10,7 @@ from minos.lib.Simulator import Simulator
 random.seed(12345678)
 
 
-def process_scene(sim, source, scene_id, f, level, num_levels, n_episodes, scene_counter=0):
+def process_scene(sim, dataset, scene_id, f, level, num_levels, n_episodes, scene_counter=0):
     if scene_counter == 0:
         header = ['sceneId', 'level', 'roomId', 'roomType',
                   'startX', 'startY', 'startZ', 'startAngle',
@@ -19,7 +19,7 @@ def process_scene(sim, source, scene_id, f, level, num_levels, n_episodes, scene
                   'pathNumRooms', 'pathRoomIndices']
         f.write(','.join(header) + '\n')
 
-    sim.set_scene(source + '.' + scene_id)
+    sim.set_scene(dataset + '.' + scene_id)
     if level >= 0:  # do one level
         sim.configure({'scene': {'level': level}})
         for j in range(0, n_episodes):
@@ -54,7 +54,7 @@ def run(args):
     f = open(args.output, 'w')
     n_scenes = len(scene_ids)
     for i in range(0, n_scenes):
-        process_scene(sim, args.source, scene_ids[i], f, args.level, args.num_levels,
+        process_scene(sim, args.scene.dataset, scene_ids[i], f, args.level, args.num_levels,
                       args.samples_per_scene, i)
 
 
@@ -103,7 +103,8 @@ def main():
                         type=float,
                         help='Maximum distance between start and goal')
     parser.add_argument('--scenes',
-                        help='Scenes file')
+                        required=True,
+                        help='Input scenes csv file')
     parser.add_argument('--level',
                         default=-1,
                         type=int,
@@ -116,7 +117,8 @@ def main():
                         default='test',
                         help='Scene split to sample')
     parser.add_argument('--output',
-                        help='Output states file')
+                        required=True,
+                        help='Output states file to write sampled episode states')
     args = parse_sim_args(parser)
 
     # args for simulator consumption

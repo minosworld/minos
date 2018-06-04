@@ -94,20 +94,20 @@ class RoomSimulator:
         if 'goal' in ep_settings:
             if self.params['task'] == 'room_goal':
                 room_id = ep_settings['room_id']
-                config['goal'] = {'roomIds': [room_id]}
+                config['goal'] = {'type': 'room', 'roomIds': [room_id]}
             else:
                 object_id = ep_settings['goal']['id']
                 if object_id:
-                    config['goal'] = {'objectIds': [object_id]}
-        else:  # remove objectIds to reset to default goal selection strategy
-            config['goal'] = {'objectIds': None, 'roomIds': None}
+                    config['goal'] = {'type': 'object', 'objectIds': [object_id]}
+        #else:  # remove objectIds to reset to default goal selection strategy
+            #config['goal'] = {'type': 'position', 'objectIds': None, 'roomIds': None}
         if 'start' in ep_settings:
             config['start'] = ep_settings['start']
         self.sim.seed(self.my_rand.randint(0, 123456789))
         if restart_needed or scene_changed:
             if scene_changed:
                 self.num_episodes_this_scene = 1
-            config['scene'] = {'fullId': self.params['scene']['source'] + '.' + ep_settings['scene_id'],
+            config['scene'] = {'fullId': self.params['scene']['dataset'] + '.' + ep_settings['scene_id'],
                                'level': ep_settings['level'],
                                'textureSet': self.curr_schedule}
             # print('restart_needed or scene_changed: config', config, 'ep_settings', ep_settings)

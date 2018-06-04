@@ -11,26 +11,6 @@ def resolve_relative_path(path):
     return os.path.join(os.path.dirname(__file__), path)
 
 
-def get_scene_params(arch_only=False, retexture=False, empty_room=False, dataset='p5dScene'):
-    if arch_only and empty_room:
-        raise Exception('Cannot specify both arch_only and empty_room for scene params')
-    replace_doors_file = resolve_relative_path('./replace_doors.json')
-    with open(replace_doors_file, 'r') as f:
-        replace_doors = json.load(f)
-    return {
-        'source': dataset,
-        'archOnly': arch_only, 'retexture': retexture,
-        'textureSet': 'train',
-        'texturedObjects': 'all',
-        'emptyRoom': empty_room,
-        'hideCategories': ['person', 'plant'],
-        'replaceModels': replace_doors,
-        'createArch': True,
-        'defaultModelFormat': 'obj' if dataset == 'p5dScene' else None,
-        'defaultSceneFormat': 'suncg' if dataset == 'p5dScene' else None
-    }
-
-
 sim_defaults = {
     'simulator': 'room_simulator',
     'num_simulators': 1,
@@ -50,7 +30,12 @@ sim_defaults = {
     'reward_type': 'dist_time',
     'observations': {'color': True, 'forces': False, 'audio': False, 'objects': False, 'depth': False, 'map': False},
     'color_encoding': 'rgba',
-    'scene': {'arch_only': False, 'retexture': False, 'empty_room': False, 'dataset': 'p5dScene'},
+    'scene': {
+        'arch_only': False, 'empty_room': False,
+        'create_arch': True, 'dataset': 'p5dScene',
+        'hide_categories': ['person', 'plant'],
+        'retexture': True, 'texture_set': 'train', 'textured_objects': 'all',
+    },
 
     # DoomSimulator params
     'config': '',            # Also in RoomSimulator but unused
@@ -84,29 +69,55 @@ def update_dict(d, u):
             if isinstance(v, collections.Mapping):
                 d[k] = update_dict(d.get(k, {}), v)
             else:
-                if v is None and d.get(k):  # avoid overwriting with None
+                if v is None:  # avoid overwriting with None
                     continue
                 d[k] = v
     return d
 
 
 def get(env_config, override_args=None, print_config=False):
-    simargs = copy.copy(sim_defaults)
+    simargs = copy.deepcopy(sim_defaults)
     if env_config:
         env = __import__('minos.config.envs.' + env_config, fromlist=['config'])
-        simargs.update(env.config)
+        update_dict(simargs, env.config)
 
-    # augmentation / setting of args
-    s = simargs['scene']
-    simargs['scene'] = get_scene_params(arch_only=s.get('arch_only', None),
-                                        retexture=s.get('retexture', None),
-                                        empty_room=s.get('empty_room', None),
-                                        dataset=s.get('dataset', None))
+    # augmentation / setting of simargs for scene configuration parameters
+    s = {}
+    s['arch_only'] = override_args.get('arch_only', None)
+    s['retexture'] = override_args.get('retexture', None)
+    s['empty_room'] = override_args.get('empty_room', None)
+    s['enableMirrors'] = override_args.get('mirrors', None)
+    s['room'] = override_args.get('room', None)
+    s['texture_set'] = override_args.get('texture_set', None)
+    s['format'] = override_args.get('scene_format', None)
+    s['dataset'] = override_args.get('dataset', None)
+    if s['arch_only'] and s['empty_room']:
+        raise Exception('Cannot specify both arch_only and empty_room for scene params')
+    replace_doors_file = resolve_relative_path('./replace_doors.json')
+    with open(replace_doors_file, 'r') as f:
+        replace_doors = json.load(f)
+    s['replaceModels'] = replace_doors
+
     for path in ['scenes_file', 'states_file', 'roomtypes_file']:
         simargs[path] = resolve_relative_path(simargs[path])
     simargs['logdir'] = os.path.join('logs', time.strftime("%Y_%m_%d_%H_%M_%S"))
 
-    update_dict(simargs, override_args)
+    # merge augmented scene object into simargs['scene']
+    update_dict(simargs['scene'], s)
+    clean_args = copy.deepcopy(override_args)
+    # remove keys we used from top level of override_args
+    for k in ['arch_only', 'retexture', 'empty_room', 'dataset', 'texture_set',
+              'mirrors', 'room', 'scene_format']:
+        if k in clean_args:
+            del clean_args[k]
+    # now merge remaining keys in at top level
+    update_dict(simargs, clean_args)
+
+    simargs['scene']['defaultModelFormat'] = 'obj' if simargs['scene']['dataset'] == 'p5dScene' else None
+    simargs['scene']['defaultSceneFormat'] = 'suncg' if simargs['scene']['dataset'] == 'p5dScene' else None
+
+    if 'scene_ids' in override_args:
+        simargs['scene']['fullId'] = simargs['scene']['dataset'] + '.' + override_args.get('scene_ids')[0]
 
     if print_config:
         pprint.pprint(simargs)

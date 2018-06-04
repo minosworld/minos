@@ -22,7 +22,7 @@ cmd
   .option('--allow_diag [flag]','Allow diagonal movement [true]', STK.util.cmd.parseBoolean, true)
   .option('--show_map_cost [flag]','Show map costs [false]', STK.util.cmd.parseBoolean, false)
   .option('--skip_existing', 'Skip rendering existing images [false]')
-  .option('--source <source>', 'Scene or model source [default: p5dScene]', 'p5dScene')
+  .option('--dataset <dataset>', 'Scene or model dataset [default: p5dScene]', 'p5dScene')
   .optionGroups(['scene', 'render_options', 'render_views', 'color_by', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -43,14 +43,14 @@ if (!cmd.input) {
 STK.assets.AssetGroups.registerDefaults();
 var assets = require('sstk/ssc/data/assets.json');
 var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.source]);
+STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.dataset]);
 if (cmd.format) {
   STK.assets.AssetGroups.setDefaultFormat(cmd.format);
 }
 
-var assetGroup = assetManager.getAssetGroup(cmd.source);
+var assetGroup = assetManager.getAssetGroup(cmd.dataset);
 if (!assetGroup) {
-  console.log('Unrecognized asset source ' + cmd.source);
+  console.log('Unrecognized asset source ' + cmd.dataset);
   return;
 }
 
@@ -74,7 +74,7 @@ function visualizeEpisodes(episodesByScene) {
   var index = 0;
   var total = _.size(episodesByScene);
   async.forEachOfSeries(episodesByScene, function (episodes, sceneId, callback) {
-    var fullId = cmd.source + '.' + sceneId;
+    var fullId = cmd.dataset + '.' + sceneId;
     index++;
     STK.util.clearCache();
     STK.util.checkMemory('Processing ' + fullId + ' scene ' + index + '/' + total);

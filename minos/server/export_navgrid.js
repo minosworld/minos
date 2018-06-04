@@ -20,7 +20,7 @@ cmd
   .option('--input <file>', 'Input file of scene ids')
   .option('--ids <ids>', 'List of scene ids', STK.util.cmd.parseList)
   .option('--output_dir <dir>', 'Base directory for output files', '.')
-  .option('--source <source>', 'Default asset source', 'p5dScene')
+  .option('--dataset <dataset>', 'Default asset dataset', 'p5dScene')
   .option('--cell_size <m>', 'Cell size', STK.util.cmd.parseFloat)
   .option('--agent_radius <m>', 'Agent radius', STK.util.cmd.parseFloat)
   .option('--agent_height <m>', 'Agent height', STK.util.cmd.parseFloat)
@@ -168,7 +168,7 @@ if (!sceneIds) {
     });
 }
 var compositeSceneIds = STK.util.map(sceneIds, function(id) {
-  return STK.assets.AssetManager.toSourceId(cmd.source, id);
+  return STK.assets.AssetManager.toSourceId(cmd.dataset, id);
 });
 var assetSources = STK.util.keys(STK.util.groupBy(compositeSceneIds, 'source'));
 var unknownAssetGroups = loadAssetGroups(assetSources);

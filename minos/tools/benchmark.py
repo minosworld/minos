@@ -44,7 +44,7 @@ def report_times(scene_id, episode, nsteps, timings):
     print(line)
 
 def benchmark(args):
-    scene_source = args.source
+    scene_dataset = args.scene.dataset
     scene_ids = args.scene_ids
     nsims = args.sims
     nsteps = args.steps_per_episode
@@ -77,7 +77,7 @@ def benchmark(args):
                 sim.start()
         for i in range(0, nscenes):
             scene_id = scene_ids[i % len(scene_ids)]
-            process_simulators(sims, act=lambda s: s.set_scene(scene_source + '.' + scene_id), async=async)
+            process_simulators(sims, act=lambda s: s.set_scene(scene_dataset + '.' + scene_id), async=async)
             for j in range(0, nepisodes):
                 print('=== Starting/resetting simulators for scene ...' + scene_id)
                 reset_only = j > 0
