@@ -12,9 +12,10 @@ random.seed(12345678)
 
 def process_scene(sim, dataset, scene_id, f, level, num_levels, n_episodes, scene_counter=0):
     if scene_counter == 0:
-        header = ['sceneId', 'level', 'roomId', 'roomType',
-                  'startX', 'startY', 'startZ', 'startAngle',
-                  'goalObjectId', 'goalX', 'goalY', 'goalZ',
+        header = ['sceneId', 'level',
+                  'startX', 'startY', 'startZ', 'startAngle', 'startTilt',
+                  'goalRoomId', 'goalRoomType', 'goalObjectId', 'goalObjectType',
+                  'goalX', 'goalY', 'goalZ', 'goalAngle', 'goalTilt',
                   'dist', 'pathDist', 'pathNumDoors', 'pathDoorIds',
                   'pathNumRooms', 'pathRoomIndices']
         f.write(','.join(header) + '\n')
@@ -36,7 +37,8 @@ def process_scene(sim, dataset, scene_id, f, level, num_levels, n_episodes, scen
                     sim.reset()
                 else:
                     sim.start()
-                write_configuration(f, edict(sim.get_scene_data()['data']), i_level)
+                scene_data = edict(sim.get_scene_data()['data'])
+                write_configuration(f, scene_data, i_level)
 
 
 def run(args):
@@ -62,22 +64,34 @@ def write_configuration(f, c, level):
     scene_id = c.sceneId.split('.')[1]
     s = c.start
     sp = s.position
+    sangle = s.angle
+    stilt = s.get('tilt', 0.0)
     g = c.goal
     print(g)
     gp = g.position
-    gid = g.objectId if 'objectId' in g else ''
-    groomtype = g.roomType if 'roomType' in g else ''
+    gangle = g.get('angle', 0.0)
+    gtilt = g.get('tilt', 0.0)
+    gid = g.get('objectId', '')
+    gid = gid[0] if isinstance(gid, list) else gid
+    groomid = g.get('room', '')
+    groomid = groomid[0] if isinstance(groomid, list) else groomid
+    groomtype = g.get('roomType', '')
+    groomtype = groomtype[0] if isinstance(groomtype, list) else groomtype
+    gobjecttype = g.get('objectType', '')
+    gobjecttype = gobjecttype[0] if isinstance(gobjecttype, list) else gobjecttype
     path = c.shortestPath
     valid_path = path and path.isValid
     path_dist = path.distance if valid_path else -1
     path_doors = path.doors if valid_path else []
     path_rooms = path.rooms if valid_path else []
     dist = math.sqrt((sp[0] - gp[0])**2 + (sp[1] - gp[1])**2 + (sp[2] - gp[2])**2)
-    f.write('%s,%d,%s,%s,%.3f,%.3f,%.3f,%.3f,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%d,%s,%d,%s\n'
-            % (scene_id, level, g.room, groomtype, sp[0], sp[1], sp[2], s.angle,
-               gid, gp[0], gp[1], gp[2],
-               dist, path_dist, len(path_doors), ':'.join(path_doors),
-               len(path_rooms), ':'.join(str(r) for r in path_rooms)))
+    p = '.3f'  # precision for floats
+    f.write(f'{scene_id},{level:d},'
+        f'{sp[0]:{p}},{sp[1]:{p}},{sp[2]:{p}},{sangle:{p}},{stilt:.0f},'  # NOTE lower precision on stilt since always 0
+        f'{groomid},{groomtype},{gid},{gobjecttype},'
+        f'{gp[0]:{p}},{gp[1]:{p}},{gp[2]:{p}},{gangle:.0f},{gtilt:.0f},'  # NOTE lower precision on gangle and gtilt since always 0
+        f'{dist:{p}},{path_dist:{p}},{len(path_doors):d},{":".join(path_doors)},'
+        f'{len(path_rooms):d},{":".join(str(r) for r in path_rooms)}\n')
 
 
 def main():

@@ -106,9 +106,11 @@ def load_scenes_file(csvfile):
         all_scenes = [r for r in reader]
         for r in all_scenes:
             for v in ['nrooms', 'nobjects']:
-                r[v] = int(r[v])
+                if v in r:
+                    r[v] = int(r[v])
             for v in ['dimX', 'dimY', 'dimZ', 'floorArea']:
-                r[v] = float(r[v])
+                if v in r:
+                    r[v] = float(r[v])
         all_scenes.sort(key=lambda x: x['nobjects'])
         train_scenes = [r for r in all_scenes if r['set'] == 'train']
         val_scenes = [r for r in all_scenes if r['set'] == 'val']

@@ -156,7 +156,7 @@ class StateSet:
             # Convert scene state and group by sceneId
             counter = 0
             for r in all_states:
-                for v in ['startX', 'startY', 'startZ', 'startAngle', 'goalX', 'goalY', 'goalZ', 'dist', 'pathDist']:
+                for v in ['startX', 'startY', 'startZ', 'startAngle', 'startTilt', 'goalX', 'goalY', 'goalZ', 'goalAngle', 'goalTilt', 'dist', 'pathDist']:
                     r[v] = float(r[v]) if v in r else None
                 for v in ['episodeId', 'pathNumDoors', 'pathNumRooms', 'level']:
                     r[v] = int(r[v]) if v in r else None
@@ -166,8 +166,12 @@ class StateSet:
                     'episode_id': counter,
                     'scene_id': r['sceneId'],
                     'room_id': r['roomId'],
-                    'start': {'position': [r['startX'], r['startY'], r['startZ']], 'angle': r['startAngle']},
-                    'goal': {'id': r['goalObjectId'], 'position': [r['goalX'], r['goalY'], r['goalZ']]},
+                    'start': {'position': [r['startX'], r['startY'], r['startZ']],
+                              'angle': r['startAngle'], 'tilt': r.get('startTilt', 0.0)},
+                    'goal': {'id': r['goalObjectId'], 'objectType': r.get('goalObjectType', ''),
+                             'roomId': r.get('goalRoomId', ''), 'roomType': r.get('goalRoomType', ''),
+                             'position': [r['goalX'], r['goalY'], r['goalZ']],
+                             'angle': r.get('goalAngle', 0.0), 'tilt': r.get('goalTilt', 0.0)},
                     'dist': r['dist']
                 }
                 for k in ['pathDist', 'pathNumRooms', 'pathRoomIds', 'pathNumDoors', 'pathDoorIds', 'level']:
