@@ -78,14 +78,24 @@ function validateShortestPath(state, cb) {
 }
 
 function checkState(state, cb) {
-  // sceneId,room,startX,startY,startZ,startAngle,goalObjectId,goalX,goalY,goalZ
-  // bd1cc2f61300546f5ec644ef62de1f07,0_2,-34.262,0.595,-37.103,2.253,0_10,-39.854,1.080,-42.030
+  // episodeId,task,sceneId,level,startX,startY,startZ,startAngle,startTilt,goalRoomId,goalRoomType,goalObjectId,goalObjectType,goalX,goalY,goalZ,goalAngle,goalTilt,dist,pathDist,pathNumDoors,pathDoorIds,pathNumRooms,pathRoomIndices
+  // 0,o,6b44bbcb43326250350f27cd91c6f784,0,-37.753,0.595,-40.221,2.253,0,0_2,Toilet,0_5,door,-44.750,1.080,-39.375,0,0,7.065,8.094,0,,3,4:5:1
   var oldSceneId = simulator.getState().getSceneId();
   var sceneId = assetSource + '.' + state.sceneId;
+  var task_id = state.task;
+  var task_id_to_task = { p: 'point_goal', o: 'object_goal', r: 'room_goal' };
+  if (task_id) {
+    var task = task_id_to_task[task_id];
+  } else {
+    var task = 'point_goal';
+  }
+  var task_to_goaltype = { 'point_goal': 'position', 'object_goal': 'object', 'room_goal': 'room' };
   simulator.configure({
-    scene: _.defaults({ fullId: sceneId }, sceneDefaults),
-    start: { position: [state.startX, state.startY, state.startZ], angle: state.startAngle },
-    goal: { type: 'position', position: [state.goalX, state.goalY, state.goalZ], objectIds: state.goalObjectId }
+    task: task,
+    scene: _.defaults({ fullId: sceneId, level: state.level }, sceneDefaults),
+    start: { position: [state.startX, state.startY, state.startZ], angle: state.startAngle, tilt: state.startTilt },
+    goal: { type: task_to_goaltype[task], position: [state.goalX, state.goalY, state.goalZ], angle: state.goalAngle,
+            tilt: state.goalTilt, objectIds: state.goalObjectId, roomId: state.goalRoomId, roomType: state.goalRoomType }
   });
 
   var gridname = outputDir + '/' + state.sceneId + '.' + archType + '.grid.json';
