@@ -12,7 +12,7 @@ var _ = STK.util;
 
 STK.Constants.setVirtualUnit(1);  // meters
 STK.Constants.defaultPalette = STK.Colors.palettes.d3_unknown_category18; // palette with gray as first color
-STK.util.disableImagesLoading();  // Don't need to load texture images
+//STK.util.disableImagesLoading();  // Don't need to load texture images
 
 cmd
   .version('0.0.1')
