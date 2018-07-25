@@ -66,11 +66,11 @@ sim_defaults = {
 def update_dict(d, u):
     if d and u:
         for k, v in u.items():
-            if isinstance(v, collections.Mapping):
+            if v is None:  # avoid overwriting with None
+                continue
+            if isinstance(v, collections.defaultdict):
                 d[k] = update_dict(d.get(k, {}), v)
             else:
-                if v is None:  # avoid overwriting with None
-                    continue
                 d[k] = v
     return d
 
