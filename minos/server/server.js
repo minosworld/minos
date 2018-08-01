@@ -6,6 +6,7 @@ var net = require('net');
 var SocketIO = require('socket.io');
 var STK = require('sstk/ssc');
 var wav = require('node-wav');
+var _ = STK.util;
 
 STK.Constants.defaultPalette = STK.Colors.palettes.d3_unknown_category18;
 STK.Constants.setVirtualUnit(1);  // meters
