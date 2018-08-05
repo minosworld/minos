@@ -10,9 +10,9 @@ Try our live web client demos!
 
 #### [MINOS for SUNCG](http://bitly.com/minos-demo-suncg)
 
-#### [MINOS for Matterport3D](http://bitly.com/minos-demo-mp3d)
+#### [MINOS for Matterport3D](http://dovahkiin.stanford.edu/simdev/simulator.html?scene[fullId]=mp3d.17DRP5sb8fy&scene[format]=matterport&collisionDetection[mode]=navgrid&navmap[refineGrid]=true&agent[radialClearance]=0.2)
 
-Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or down, the R key to respawn, and the O key to update the agent observations panel on the right.
+Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or down, the R key to respawn, and the O key to update the agent observations panel on the right.  The M key toggles various navigation grid and shortest path visualizations.
 
 ## Installing
 
