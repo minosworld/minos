@@ -10,15 +10,15 @@ Try our live web client demos!
 
 #### [MINOS for SUNCG](http://bitly.com/minos-demo-suncg)
 
-#### [MINOS for Matterport3D](http://bitly.com/minos-demo-mp3d)
+#### [MINOS for Matterport3D](http://dovahkiin.stanford.edu/simdev/simulator.html?scene[fullId]=mp3d.17DRP5sb8fy&scene[format]=matterport&collisionDetection[mode]=navgrid&navmap[refineGrid]=true&agent[radialClearance]=0.2)
 
-Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or down, the R key to respawn, and the O key to update the agent observations panel on the right.
+Use the I/J/K/L keys to step and turn, the arrow keys to strafe and look up or down, the R key to respawn, and the O key to update the agent observations panel on the right.  The M key toggles various navigation grid and shortest path visualizations.
 
 ## Installing
 
 0. MINOS can be used on Linux and MacOS systems. Use under Windows is possible but not recommended.
 
-1. Request and download the [SUNCG](http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  For Matterport3D, use the invocation `download_mp.py --task_data minos -o .` with the provided download script.  This will download a 5.1GB zip archive which expands to approximately 6.3GB.  For SUNCG, if you are already a registered user, please send another email to request the additional MINOS data packages.  The SUNCG data package is a 5.0GB zip archive which expands to approximately 8.8GB.
+1. Request and download the [SUNCG](http://suncg.cs.princeton.edu/) and [Matterport3D](https://niessner.github.io/Matterport/) datasets. Please indicate "use with MINOS simulator" in your request email.  For Matterport3D, use the invocation `download_mp.py --task_data minos -o .` with the provided download script.  This will download a 5.1GB zip archive which expands to approximately 6.3GB.  For SUNCG, by default the `download_suncg.py` script will download the latest version of the dataset.  You can obtain the v1 or v2.0 versions using `download_suncg.py --version <version>`.
 
 1. Install [node.js](https://nodejs.org/) using the Node Version Manager ([nvm](https://github.com/creationix/nvm)).
     ```
