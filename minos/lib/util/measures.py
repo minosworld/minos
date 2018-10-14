@@ -8,10 +8,12 @@ class Measure:
 
     def __init__(self, goal_dist_threshold=1.0e-6,  # success when dist < this value
                  termination_dist_value=-10.0,  # overrides distance value returned at term
-                 termination_time=50.0):
+                 termination_time=50.0,
+                 termination_on_success=True):
         self.goal_dist_threshold = goal_dist_threshold
         self.termination_dist_value = termination_dist_value
         self.termination_time = termination_time
+        self.termination_on_success = termination_on_success
 
     def reset(self):
         pass
@@ -40,7 +42,9 @@ class Measure:
         else:
             success = distances[0] <= self.goal_dist_threshold
 
-        term = success or time > self.termination_time
+        term = time > self.termination_time
+        if self.termination_on_success:
+            term = term or success
         return success, term
 
 
