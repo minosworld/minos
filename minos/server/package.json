@@ -15,7 +15,7 @@
     "node-wav": "^0.0.2",
     "seedrandom": "^2.4.2",
     "shelljs": "^0.7.8",
-    "socket.io": "^1.7.4",
+    "socket.io": "^2.1.1",
     "sstk": "smartscenes/sstk#v0.7.0"
   },
   "devDependencies": {

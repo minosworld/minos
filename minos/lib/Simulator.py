@@ -19,7 +19,7 @@ import scipy.io.wavfile as wavfile
 import yaml
 from PIL import Image
 from easydict import EasyDict as edict
-from socketIO_client import SocketIO  # pip install https://github.com/msavva/socketIO-client-2/zipball/master
+from socketIO_client_sstk import SocketIO  # pip install https://github.com/smartscenes/socketIO-client-sstk/zipball/master
 
 from . import common
 from .simdepth import simdepth
