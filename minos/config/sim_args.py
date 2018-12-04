@@ -154,6 +154,8 @@ def add_sim_args(parser):
                         help='Scene ids to load')
     parser.add_argument('--room',
                         help='Room id to load')
+    parser.add_argument('--sensors_config',
+                        help='Sensor configuration to use (corresponds to sensors config JSON file in config dir)')
     parser.add_argument('--agent_config',
                         help='Agent configuration to use (corresponds to agent config JSON file in config dir)')
     parser.add_argument('--env_config',

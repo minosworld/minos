@@ -1,5 +1,10 @@
 {
-  "sensors": { "$ref": "sensors.yml" },
+  "sensors": {
+    "default": { "$ref": "sensors.yml" },
+    "default_mp3d": { "$ref": "sensors_mp3d.yml" },
+    "equirectangular": { "$ref": "sensors_equirectangular.yml" },
+    "im2pano3d": { "$ref": "sensors_im2pano3d.yml" }
+  },
   "agents": {
     "agent_continuous": { "$ref": "agent_continuous.yml" },
     "agent_gridworld": { "$ref": "agent_gridworld.yml" },
