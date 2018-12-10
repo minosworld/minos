@@ -61,6 +61,11 @@ Or run the object goal (door target) task in medium furnished SUNCG environments
 python3 demo.py --env_config objectgoal_suncg_mf
 ```
 
+## Related repositories
+
+- Navigation benchmark scenarions for Matterport3D and SUNCG at https://github.com/minosworld/scenarios
+- UNREAL / A3C / A3C-LSTM baselines at https://github.com/minosworld/unreal
+- DFP baseline at https://github.com/minosworld/dfp
 
 ## Available tools and scripts
 
