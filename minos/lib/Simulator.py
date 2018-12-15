@@ -466,6 +466,8 @@ class Simulator:
 
     def __process_camera_frame(self, name, f):
         """Converts generic camera based frame (assume to be rgba) bytes to Image and reshapes"""
+        if type(f)==list:
+            f=f[0]
         data = np.reshape(f['data'], f['shape'])
         data_viz = None
         if 'data_viz' in f:
@@ -510,6 +512,8 @@ class Simulator:
         sensors = observation['sensors']
         if observation.get('map') is not None:
             converted = self.__process_camera_frame('map', observation['map'])
+            if type(observation['map'])==list:
+                observation['map']=observation['map'][0]
             observation['map']['data'] = converted['data']
         # Go over observations from sensors and process them
         for name, sensor_data in sensors.items():
