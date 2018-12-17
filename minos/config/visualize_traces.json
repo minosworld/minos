@@ -12,6 +12,10 @@
 			"texturedSet": "train"
 		}
 	},
+	"agent": {
+		"radius": 0.1,
+		"radialClearance": 0.2
+	},
 	"camera": {
 		"type": "perspective"
 	}
