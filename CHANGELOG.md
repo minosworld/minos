@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Updated to use [SSTK](https://github.com/smartscenes/sstk) 0.7.1 with [three.js](https://threejs.org/) r95 (different rendering behavior) and updated other nodejs dependencies
 - Switch to use [socketIO_client_sstk](https://github.com/smartscenes/socketIO-client-sstk) that supports 1) socketio 2, 2) binary and 3) has separate package name to avoid name/version conflicts with original socketIO-client 
 - Replace command line argument `--source` with `--dataset` and `--task` with `env_config`
+- Support for camera arrays and equirectangualar panoramas
 
 ## [0.5.3] - 2018-04-25
 ### Fixes
