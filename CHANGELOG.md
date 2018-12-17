@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Replace command line argument `--source` with `--dataset` and `--task` with `env_config`
 - Added flag termination_on_success for meas_fun (@ducha-aiki)
 - Handle maps from mp3d scenes with multiple levels (@ZhuFengdaaa)
-
+- Fixes visualize_traces.js for mp3d scenes (#129)
 
 ## [0.5.3] - 2018-04-25
 ### Fixes
