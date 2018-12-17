@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.6.0] - 2018-12-16
 - Replace command line argument `--source` with `--dataset` and `--task` with `env_config`
-- Added flag termination_on_success for meas_fun (@ducha-aiki)
-- Handle maps from mp3d scenes with multiple levels (@ZhuFengdaaa)
-- Fixes `visualize_traces.js` for mp3d scenes (#129)
+- Added flag termination_on_success for meas_fun ([@ducha-aiki](https://github.com/ducha-aiki))
+- Handle maps from mp3d scenes with multiple levels ([@ZhuFengdaaa](https://github.com/ZhuFengdaaa) [#125](../../issues/125))
+- Fixes `visualize_traces.js` for mp3d scenes ([#129](../../issues/129))
 
 ## [0.5.3] - 2018-04-25
 ### Fixes
