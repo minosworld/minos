@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.x] - 2018-12-??
+- Replace command line argument `--source` with `--dataset` and `--task` with `env_config`
+- Added flag termination_on_success for meas_fun (@ducha-aiki)
+- Handle maps from mp3d scenes with multiple levels (@ZhuFengdaaa)
+- Fixes visualize_traces.js for mp3d scenes (#129)
+
 ## [0.5.3] - 2018-04-25
 ### Fixes
 - Improved downloading and packing of asset metadata (sstk dependency v0.5.3)
