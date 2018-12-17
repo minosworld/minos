@@ -1,3 +1,5 @@
+## The dev branch is no longer maintained.  Please use the 0.6.x branch if you were using the dev branch before or upgrade to 0.7.x or newer
+
 # MINOS Simulator
 
 MINOS is a simulator designed to support the development of multisensory models for goal-directed navigation in complex indoor environments. MINOS leverages large datasets of complex 3D environments and supports flexible configuration of multimodal sensor suites.
