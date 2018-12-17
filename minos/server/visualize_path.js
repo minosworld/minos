@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var async = require('async');
-var fs = require('fs');
 var shell = require('shelljs');
 var STK = require('sstk/ssc/stk-ssc');
 var cmd = require('sstk/ssc/ssc-parseargs');
@@ -23,6 +22,7 @@ cmd
   .option('--show_map_cost [flag]','Show map costs [false]', STK.util.cmd.parseBoolean, false)
   .option('--skip_existing', 'Skip rendering existing images [false]')
   .option('--dataset <dataset>', 'Scene or model dataset [default: p5dScene]', 'p5dScene')
+  .option('--default_goal_type <goal_type>', 'Default goal type to use (if not specified in episodes)', 'point')
   .optionGroups(['scene', 'render_options', 'render_views', 'color_by', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -50,11 +50,11 @@ if (cmd.format) {
 
 var assetGroup = assetManager.getAssetGroup(cmd.dataset);
 if (!assetGroup) {
-  console.log('Unrecognized asset source ' + cmd.dataset);
+  console.log('Unrecognized asset dataset ' + cmd.dataset);
   return;
 }
 
-var extras = ['wall', 'navmap'];
+var extras = ['wall', 'navmap', 'regions'];
 var sceneDefaults = { includeCeiling: false, defaultMaterialType: THREE.MeshPhongMaterial, preload: extras };
 if (cmd.scene) {
   sceneDefaults = _.merge(sceneDefaults, cmd.scene);
@@ -108,21 +108,10 @@ function visualizeEpisodes(episodesByScene) {
     shell.mkdir('-p', outputDir);
 
     var info = _.defaultsDeep({ fullId: fullId }, sceneDefaults);
-    assetManager.loadAsset(info, function (err, asset) {
+    assetManager.loadAssetAsScene(info, function (err, asset) {
       var sceneState;
       if (asset instanceof STK.scene.SceneState) {
         sceneState = asset;
-      } else if (asset instanceof STK.model.ModelInstance) {
-        sceneState = new STK.scene.SceneState();
-        var modelInstance = asset;
-        console.time('toGeometry');
-        // Ensure is normal geometry (for some reason, BufferGeometry not working with ssc)
-        STK.geo.Object3DUtil.traverseMeshes(modelInstance.object3D, false, function(m) {
-          m.geometry = STK.geo.GeometryUtil.toGeometry(m.geometry);
-        });
-        console.timeEnd('toGeometry');
-        sceneState.addObject(modelInstance);
-        sceneState.info = modelInstance.model.info;
       } else {
         console.error("Unsupported asset type " + fullId, asset);
         return;
@@ -152,20 +141,32 @@ function visualizeEpisodes(episodesByScene) {
               console.warn('No wall for scene ' + fullId);
             }
           } else if (extraInfo.assetType === 'navmap') {
-            var collisionProcessor = STK.sim.CollisionProcessorFactory.createCollisionProcessor();
+            var collisionProcessor = STK.sim.CollisionProcessorFactory.createCollisionProcessor({mode: 'navgrid'});
             if (extraInfo.data) {
+              var refineGridOpts = null;
+              if (cmd.agent) {
+                refineGridOpts = {
+                  radius: cmd.agent.radius * STK.Constants.metersToVirtualUnit,
+                  clearance: cmd.agent.radialClearance * STK.Constants.metersToVirtualUnit
+                };
+              }
               navscene = new STK.nav.NavScene({
                 sceneState: sceneState,
+                refineGrid: refineGridOpts,
                 allowDiagonalMoves: cmd.allow_diag,
-                tileOverlap: 0.25,
+                tileOverlap: -0.1618,
+                tileOpacity: 1.0,
                 baseTileHeight: collisionProcessor.traversableFloorHeight * STK.Constants.metersToVirtualUnit,
                 isValid: function (position) {
                   return collisionProcessor.isPositionInsideScene(sceneState, position);
                 }
               });
+              sceneState.navscene = navscene;
             } else {
               console.warn('No navmap for scene ' + fullId);
             }
+          } else if (extraInfo.assetType === 'house') {
+            // Nothing to do
           } else {
             console.warn('Unsupported extra ' + extra);
           }
@@ -209,7 +210,7 @@ function visualizeEpisodes(episodesByScene) {
 
       function onDrained() {
         var count = 0;
-        var nepisodes = cmd.episodes_per_scene > 0? Math.max(cmd.episodes_per_scene, episodes.length) : episodes.length;
+        var nepisodes = cmd.episodes_per_scene > 0? Math.min(cmd.episodes_per_scene, episodes.length) : episodes.length;
         async.whilst(function() {
           return count < nepisodes;
         }, function(cb) {
@@ -219,7 +220,7 @@ function visualizeEpisodes(episodesByScene) {
           agent.moveTo(episode.start);
           navscene.reset(agent, episode.start, [episode.goal]);
           // Add visualization of episodes with shortest path
-          navscene.visualizePathCost({ showPathOnly: !cmd.show_map_cost });
+          navscene.visualizePathCost({ showPathOnly: !cmd.show_map_cost, colors: [0x1f77b4, 0xaec7e8] });
           count++;
           render(name, cb);
         }, function(err, n) {
@@ -259,7 +260,7 @@ if (cmd.episodes) {
   episodes = STK.util.filter(episodes, function(episode) {
     return episodeIds.indexOf(episode.episodeId) >= 0;
   });
-}  
+}
 if (cmd.ids) {
   episodes = STK.util.filter(episodes, function(episode) {
     return cmd.ids.indexOf(episode.sceneId) >= 0;
@@ -267,9 +268,15 @@ if (cmd.ids) {
 }
 STK.util.forEach(episodes, function(episode) {
   episode.start = { position: new THREE.Vector3(episode.startX*s, episode.startY*s, episode.startZ*s), angle: episode.startAngle };
-  episode.goal = { position: new THREE.Vector3(episode.goalX*s, episode.goalY*s, episode.goalZ*s), objectId: episode.goalObjectId };
+  episode.goal = {
+    type: episode.type || cmd.default_goal_type,
+    room: (episode.roomId != null && episode.roomId.length)? [episode.roomId] : null,
+    roomType: (episode.roomType != null  && episode.roomType.length)? [episode.roomType] : null, // TODO: can there be multiple room types?
+    position: new THREE.Vector3(episode.goalX*s, episode.goalY*s, episode.goalZ*s),
+    objectId: episode.goalObjectId
+  };
 });
-episodesByScenes = STK.util.groupBy(episodes, function (r) {
+var episodesByScenes = STK.util.groupBy(episodes, function (r) {
   return r.sceneId;
 });
 console.log('Visualize ' + episodes.length + ' episodes for ' + STK.util.size(episodesByScenes) + ' scene');

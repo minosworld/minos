@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var async = require('async');
-var fs = require('fs');
 var shell = require('shelljs');
 var STK = require('sstk/ssc/stk-ssc');
 var cmd = require('sstk/ssc/ssc-parseargs');
@@ -60,7 +59,7 @@ if (!assetGroup) {
   return;
 }
 
-var extras = ['wall'];
+var extras = ['wall', 'regions'];
 if (cmd.show_shortest_path) {
   extras.push('navmap');
 }
@@ -121,21 +120,10 @@ function visualizeActionTraces(tracesByScene) {
     shell.mkdir('-p', outputDir);
 
     var info = _.defaultsDeep({ fullId: fullId }, sceneDefaults);
-    assetManager.loadAsset(info, function (err, asset) {
+    assetManager.loadAssetAsScene(info, function (err, asset) {
       var sceneState;
       if (asset instanceof STK.scene.SceneState) {
         sceneState = asset;
-      } else if (asset instanceof STK.model.ModelInstance) {
-        sceneState = new STK.scene.SceneState();
-        var modelInstance = asset;
-        console.time('toGeometry');
-        // Ensure is normal geometry (for some reason, BufferGeometry not working with ssc)
-        STK.geo.Object3DUtil.traverseMeshes(modelInstance.object3D, false, function(m) {
-          m.geometry = STK.geo.GeometryUtil.toGeometry(m.geometry);
-        });
-        console.timeEnd('toGeometry');
-        sceneState.addObject(modelInstance);
-        sceneState.info = modelInstance.model.info;
       } else {
         console.error("Unsupported asset type " + fullId, asset);
         return;
@@ -165,10 +153,18 @@ function visualizeActionTraces(tracesByScene) {
               console.warn('No wall for scene ' + fullId);
             }
           } else if (extraInfo.assetType === 'navmap') {
-            var collisionProcessor = STK.sim.CollisionProcessorFactory.createCollisionProcessor();
+            var collisionProcessor = STK.sim.CollisionProcessorFactory.createCollisionProcessor({mode: 'navgrid'});
             if (extraInfo.data) {
+              var refineGridOpts = null;
+              if (cmd.agent) {
+                refineGridOpts = {
+                  radius: cmd.agent.radius * STK.Constants.metersToVirtualUnit,
+                  clearance: cmd.agent.radialClearance * STK.Constants.metersToVirtualUnit
+                };
+              }
               navscene = new STK.nav.NavScene({
                 sceneState: sceneState,
+                refineGrid: refineGridOpts,
                 allowDiagonalMoves: cmd.allow_diag,
                 tileOverlap: -0.1618,
                 tileOpacity: 1.0,
@@ -177,9 +173,12 @@ function visualizeActionTraces(tracesByScene) {
                   return collisionProcessor.isPositionInsideScene(sceneState, position);
                 }
               });
+              sceneState.navscene = navscene;
             } else {
               console.warn('No navmap for scene ' + fullId);
             }
+          } else if (extraInfo.assetType === 'house') {
+            // Nothing to do
           } else {
             console.warn('Unsupported extra ' + extra);
           }
@@ -227,7 +226,7 @@ function visualizeActionTraces(tracesByScene) {
           var episodesById = STK.sim.ActionTraceLog.recordsToEpisodes(traceRecords, sceneState);
           var episodes = _.values(episodesById);
           var count = 0;
-          var nepisodes = cmd.episodes_per_scene > 0? Math.max(cmd.episodes_per_scene, episodes.length) : episodes.length;
+          var nepisodes = cmd.episodes_per_scene > 0? Math.min(cmd.episodes_per_scene, episodes.length) : episodes.length;
           async.whilst(function() {
             return count < nepisodes;
           }, function(cb) {
