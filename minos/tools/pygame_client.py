@@ -134,6 +134,18 @@ def display_response(response, display_surf, camera_outputs, print_observation=F
         pygame.sndarray.make_sound(audio_data).play()
         # pygame.mixer.Sound(audio_data).play()
 
+def ensure_size(display_surf, rw, rh):
+    w = display_surf.get_width()
+    h = display_surf.get_height()
+    if w < rw or h < rh:
+        # Resize display (copying old stuff over)
+        old_display_surf = display_surf.convert()
+        display_surf = pygame.display.set_mode((max(rw,w), max(rh,h)), pygame.RESIZABLE | pygame.DOUBLEBUF)
+        display_surf.blit(old_display_surf, (0,0))
+        return display_surf, True
+    else:
+        return display_surf, False
+
 def write_text(display_surf, text, position, font=None, fontname='monospace', fontsize=12, color=(255,255,224), align=None):
     """
     text -> string of text.
@@ -163,8 +175,6 @@ def interactive_loop(sim, args):
     clock = pygame.time.Clock()
 
     # Set up display
-    font_spacing = 20
-    display_height = args.height + font_spacing*3
     all_camera_observations = ['color', 'depth', 'normal', 'objectId', 'objectType', 'roomId', 'roomType']
     label_positions = {
         'curr': {},
@@ -175,20 +185,36 @@ def interactive_loop(sim, args):
         'goal': {}
     }
 
+    # get observation space and max height
+    observation_space = sim.get_observation_space()
+    spaces = [observation_space.get('sensors').get(obs) for obs in all_camera_observations if args.observations.get(obs)]
+    heights = [s.shape[1] for s in spaces]
+
     # row with observations and goals
     nimages = 0
+    total_width = 0
+    max_height = max(heights)
+    font_spacing = 20
+    display_height = max_height + font_spacing*3
     for obs in all_camera_observations:
         if args.observations.get(obs):
-            label_positions['curr'][obs] = (args.width*nimages, font_spacing*2)
-            camera_outputs['curr'][obs] = { 'position': (args.width*nimages, font_spacing*3) }
+            space = observation_space.get('sensors').get(obs)
+            print('space', space)
+            width = space.shape[0]   # TODO: have height be first to be more similar to other libraries
+            height = space.shape[1]
+            label_positions['curr'][obs] = (total_width, font_spacing*2)
+            camera_outputs['curr'][obs] = { 'position': (total_width, font_spacing*3) }
             if args.show_goals:
-                label_positions['goal'][obs] = (args.width*nimages, display_height + font_spacing*2)
-                camera_outputs['goal'][obs] = { 'position': (args.width*nimages, display_height + font_spacing*3) }
+                label_positions['goal'][obs] = (total_width, display_height + font_spacing*2)
+                camera_outputs['goal'][obs] = { 'position': (total_width, display_height + font_spacing*3) }
             nimages += 1
+            total_width += width
+            if height > max_height:
+                max_height = height
 
 
     if args.show_goals:
-        display_height += args.height + font_spacing*3
+        display_height += max_height + font_spacing*3
 
     # Row with offset and map
     plot_size = max(min(args.height, 128), 64)
@@ -209,7 +235,7 @@ def interactive_loop(sim, args):
     display_height += font_spacing
     display_height += plot_size
 
-    display_shape = [max(args.width * nimages, next_start_x), display_height]
+    display_shape = [max(total_width, next_start_x), display_height]
     display_surf = pygame.display.set_mode((display_shape[0], display_shape[1]), pygame.RESIZABLE | pygame.DOUBLEBUF)
 
     # Write text
@@ -363,13 +389,8 @@ def interactive_loop(sim, args):
             img = map['data']
             rw = map['shape'][0] + config.get('position')[0]
             rh = map['shape'][1] + config.get('position')[1]
-            w = display_surf.get_width()
-            h = display_surf.get_height()
-            if w < rw or h < rh:
-                # Resize display (copying old stuff over)
-                old_display_surf = display_surf.convert()
-                display_surf = pygame.display.set_mode((max(rw,w), max(rh,h)), pygame.RESIZABLE | pygame.DOUBLEBUF)
-                display_surf.blit(old_display_surf, (0,0))
+            display_surf, resized = ensure_size(display_surf, rw, rh)
+            if resized:
                 write_text(display_surf, 'map', position = label_positions['map'])
             blit_img_to_surf(img, display_surf, config.get('position'), surf_key='map')
 
