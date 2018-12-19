@@ -95,10 +95,14 @@ class RoomSimulator:
             if self.params['task'] == 'room_goal':
                 room_id = ep_settings['room_id']
                 config['goal'] = {'type': 'room', 'roomIds': [room_id]}
-            else:
+            elif self.params['task'] == 'point_goal':
+                config['goal'] = {'type': 'position', 'position': ep_settings['goal']['position']}
+            elif self.params['task'] == 'object_goal':
                 object_id = ep_settings['goal']['id']
                 if object_id:
                     config['goal'] = {'type': 'object', 'objectIds': [object_id]}
+            else:
+                raise RuntimeError('Unsupported task type ' + self.params['task'])
         #else:  # remove objectIds to reset to default goal selection strategy
             #config['goal'] = {'type': 'position', 'objectIds': None, 'roomIds': None}
         if 'start' in ep_settings:
