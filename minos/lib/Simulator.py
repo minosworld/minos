@@ -7,7 +7,6 @@ import platform
 import pprint
 #import resource
 import signal
-import subprocess as sp
 import time
 import uuid
 from collections import Counter
@@ -25,6 +24,7 @@ from . import common
 from .simdepth import simdepth
 from .simdepth.simdepth import DepthNoiseSim
 from .simdepth.simredwood import RedwoodDepthNoiseSim
+from .util.GetVersion import get_versions
 from .util.BackgroundPOpen import BackgroundPopen
 from .util.LabelMapping import LabelMapping
 from .util.RpcCall import RpcCall
@@ -105,16 +105,12 @@ class Simulator:
         params.output_dir = os.path.abspath(self._output_dir)
 
         # Track what version we are
-        stk_sim_path = os.path.dirname(os.path.abspath(__file__))
-        stk_git_hash = sp.check_output(['git', 'rev-parse', '--short', 'HEAD'], universal_newlines=True,
-                                       cwd=stk_sim_path).rstrip(),
-        sim_git_hash = sp.check_output(['git', 'rev-parse', '--short', 'HEAD'], universal_newlines=True,
-                                       cwd=params.SIM_PATH).rstrip(),
+        versions = get_versions(script_path)
         info = {
             'sim_id': self.id,
             'machine': platform.node(), #os.uname()[1],
-            'sim_git_hash': sim_git_hash[0],
-            'stk_git_hash': stk_git_hash[0]
+            'sim_version': versions['sim_version'],
+            'stk_version': versions['stk_version']
         }
         self._logger.info(info)
 
