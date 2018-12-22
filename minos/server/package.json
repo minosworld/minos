@@ -16,7 +16,7 @@
     "seedrandom": "^2.4.2",
     "shelljs": "^0.7.8",
     "socket.io": "^2.1.1",
-    "sstk": "smartscenes/sstk#v0.7.2"
+    "sstk": "smartscenes/sstk#v0.7.x"
   },
   "devDependencies": {
     "chai": "^4.1.2",
