@@ -28,7 +28,7 @@ build:
     - script:
         name: install system dependencies
         code: |
-          rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+          rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install v10.13.0
           sudo apt-get -y install build-essential libxi-dev libglu1-mesa-dev libglew-dev
     # Output our Node.js and npm versions
     - script:
