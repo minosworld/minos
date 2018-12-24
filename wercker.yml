@@ -3,7 +3,7 @@
 # If you want Nodesource's container you would reference nodesource/node
 # Read more about containers on our dev center
 # http://devcenter.wercker.com/docs/containers/index.html
-box: garthk/node-for-headless-webgl
+box: python
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
@@ -28,6 +28,7 @@ build:
     - script:
         name: install system dependencies
         code: |
+          rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
           sudo apt-get -y install build-essential libxi-dev libglu1-mesa-dev libglew-dev
     # Output our Node.js and npm versions
     - script:
