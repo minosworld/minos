@@ -29,6 +29,16 @@ It is possible to run the code on machines without a full X server session using
 #### Where are the train/val/test splits defined and how are episodes sampled?
 The splits are stored as part of the presampled episode files in [minos/data/episodes_states.suncg.csv.bz2](https://github.com/minosworld/minos/blob/master/minos/data/episode_states.suncg.csv.bz2) and [minos/data/episodes_states.mp3d.csv.bz2](https://github.com/minosworld/minos/blob/master/minos/data/episode_states.mp3d.csv.bz2).  To set the split from which episodes will be picked, you can either pass an `episode_schedule` parameter to the `RoomSimulator` constructor, or use the `set_episode_schedule` call to the `RoomSimulator`.  The strings `train`, `val`, and `test` are the three valid options, and they will correspondingly select the subset of episodes for the given split (from the above two files by default, or other episode_states files if you set the `states_file` parameter to a different file).  You can further restrict the episodes that will be used by a particular `RoomSimulator` through the `episode_filter` parameter in the env config files.  This is an arbitrary python function that can check the value of any of the columns in the episode_states csv files and return a boolean for whether the episode should be included.  For example, you can filter on `sceneId` and `roomId` to select only episodes in a specific house and room.
 
+#### I get the following error messages saying some WEBGL extensions are not supported
+```
+2018-12-05 14:24:19,724 ERROR b'THREE.WebGLRenderer: WEBGL_depth_texture extension not supported.'
+2018-12-05 14:24:19,724 ERROR b'THREE.WebGLRenderer: OES_texture_float_linear extension not supported.'
+2018-12-05 14:24:19,724 ERROR b'THREE.WebGLRenderer: OES_texture_half_float extension not supported.'
+2018-12-05 14:24:19,724 ERROR b'THREE.WebGLRenderer: OES_texture_half_float_linear extension not supported.'
+2018-12-05 14:24:19,724 ERROR b'THREE.WebGLRenderer: OES_standard_derivatives extension not supported.'
+```
+These messages are expected and safe to ignore.
+
 ### Common issues/errors
 
 #### I get an error about data
