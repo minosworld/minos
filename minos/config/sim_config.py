@@ -78,7 +78,7 @@ def update_dict(d, u):
     return d
 
 
-def get(env_config, override_args=None, print_config=False):
+def get(env_config, override_args={}, print_config=False):
     simargs = copy.deepcopy(sim_defaults)
     if env_config:
         env = __import__('minos.config.envs.' + env_config, fromlist=['config'])
