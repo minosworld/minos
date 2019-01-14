@@ -30,6 +30,7 @@ cmd
   .option('--sample_upward_surfaces [flag]', 'Whether to use sample upward surfaces when estimating floor height', STK.util.cmd.parseBoolean, false)
   .option('--adjust_room_index [flag]', 'Whether to use refine and adjust room index', STK.util.cmd.parseBoolean, false)
   .option('--update_weights [flag]', 'Whether to update weights', STK.util.cmd.parseBoolean, false)
+  .option('--assets <filename>', 'Additional assets files')
   .optionGroups(['scene', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -73,10 +74,16 @@ var simulator = new STK.sim.Simulator({
 var archType =  STK.scene.SceneState.getArchType(sceneDefaults);
 
 function loadAssetGroups(assetSources) {
-  STK.assets.AssetGroups.registerDefaults();
-  var assets = require('sstk/ssc/data/assets.json');
-  var assetsMap = _.keyBy(assets, 'name');
-  STK.assets.registerCustomAssetGroupsSync(assetsMap, assetSources);
+  // Logic to register various assets below
+  // See sstk/ssc/data/assets.json for example of list of assets
+  var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+  STK.assets.registerAssetGroupsSync({
+    assetSources: assetSources,
+    assetFiles: assetFiles,
+    skipDefault: false,
+    includeAllAssetFilesSources: true
+  });
+
   if (cmd.format) {
     STK.assets.AssetGroups.setDefaultFormat(cmd.format);
   }

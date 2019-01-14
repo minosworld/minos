@@ -20,15 +20,21 @@ cmd
   .option('--navmap', 'Use navmap')
   .option('--ping_timeout [num]', 'Number of seconds between ping/pong before client timeout', STK.util.cmd.parseInt, 300)
   .option('--busywait [num]', 'Number of seconds to busywait for a command (for debugging busy server)', STK.util.cmd.parseInt)
+  .option('--assets <filename>', 'Additional assets files')
   .parse(process.argv);
 
 var fullId = cmd.dataset + '.' + cmd.id;
 console.log(fullId);
 
-STK.assets.AssetGroups.registerDefaults();
-var assets = require('sstk/ssc/data/assets.json');
-var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, ['p5dScene']);
+// Logic to register various assets below
+// See sstk/ssc/data/assets.json for example of list of assets
+var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+STK.assets.registerAssetGroupsSync({
+  assetSources: [cmd.dataset],
+  assetFiles: assetFiles,
+  skipDefault: false,
+  includeAllAssetFilesSources: true
+});
 
 var defaultSensorConfig = require('../config/sensors.yml');
 

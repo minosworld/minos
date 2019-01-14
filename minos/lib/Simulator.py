@@ -219,6 +219,9 @@ class Simulator:
                 if self.params.get('ping_timeout') is not None:
                     simserver_cmd.append('--ping_timeout')
                     simserver_cmd.append(str(self.params.get('ping_timeout')))
+                if self.params.get('assets') is not None:
+                    simserver_cmd.append('--assets')
+                    simserver_cmd.append(self.params.get('assets'))
                 if self.params.get('profile_cpu', False):
                     simserver_cmd.insert(1, '--prof')
                 if self.params.get('debug_mem', False):

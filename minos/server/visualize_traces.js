@@ -27,6 +27,7 @@ cmd
   .option('--allow_diag [flag]', 'Allow diagonal movement for shortest path [false]', STK.util.cmd.parseBoolean, false)
   .option('--episodes_per_scene <n>', 'Limit to number of episodes per scene', STK.util.cmd.parseInt, 0)
   .option('--render_stepframes [flag]', 'Render frames for each step [false]', false)
+  .option('--assets <filename>', 'Additional assets files')
   .optionGroups(['scene', 'render_options', 'render_views', 'color_by', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -45,10 +46,15 @@ if (!cmd.trace_file) {
   return;
 }
 
-STK.assets.AssetGroups.registerDefaults();
-var assets = require('sstk/ssc/data/assets.json');
-var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.dataset]);
+// Logic to register various assets below
+// See sstk/ssc/data/assets.json for example of list of assets
+var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+STK.assets.registerAssetGroupsSync({
+  assetSources: [cmd.dataset],
+  assetFiles: assetFiles,
+  skipDefault: false,
+  includeAllAssetFilesSources: true
+});
 if (cmd.format) {
   STK.assets.AssetGroups.setDefaultFormat(cmd.format);
 }

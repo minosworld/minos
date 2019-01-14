@@ -47,6 +47,8 @@ def add_sim_args(parser):
                         help='Number of seconds for simulator server to busywait (test busy server)')
     parser.add_argument('--ping_timeout', type=int,
                         help='Number of seconds between ping/pong before client timeout')
+    parser.add_argument('--assets',
+                        help='Additional custom assets to load into the simulator')
     parser.add_argument('--width', type=int,
                         default=256,
                         help='Image width')

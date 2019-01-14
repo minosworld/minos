@@ -17,6 +17,7 @@ cmd
   .option('-p, --port [port]', 'Port to send simulator data [default: 1234]', 1234)
   .option('--ping_timeout [num]', 'Number of seconds between ping/pong before client timeout', STK.util.cmd.parseInt, 300)
   .option('--busywait [num]', 'Number of seconds to busy wait for a command (for pretending to be a busy server)', STK.util.cmd.parseInt)
+  .option('--assets <filename>', 'Additional assets files')
   .parse(process.argv);
 
 var port = cmd.port;
@@ -28,10 +29,15 @@ var sim;
 
 console.log('Waiting for client connection on port ' + port);
 
-STK.assets.AssetGroups.registerDefaults();
-var assets = require('sstk/ssc/data/assets.json');
-var assetsMap = STK.util.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, ['p5dScene', 'mp3d', '2d3ds']);
+// Logic to register various assets below
+// See sstk/ssc/data/assets.json for example of list of assets
+var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+STK.assets.registerAssetGroupsSync({
+  assetSources: ['p5dScene', 'mp3d'],
+  assetFiles: assetFiles,
+  skipDefault: false,
+  includeAllAssetFilesSources: true
+});
 
 function createSimulator(params) {
   params = STK.util.mapKeys(params, function(v,k) { return _.camelCase(k); });

@@ -16,6 +16,8 @@ cmd
   .option('--input <file>', 'CSV of sampled start and goal')
   .option('--output_dir <dir>', 'Base directory for output files', '.')
   .option('--save_grids', 'Save grids', STK.util.cmd.parseBoolean, false)
+  .option('--dataset <dataset>', 'Scene or model dataset [default: p5dScene]', 'p5dScene')
+  .option('--assets <filename>', 'Additional assets files')
   .optionGroups(['scene', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -33,11 +35,16 @@ if (!cmd.input) {
   return;
 }
 
-var assetSource = 'p5dScene';
-STK.assets.AssetGroups.registerDefaults();
-var assets = require('sstk/ssc/data/assets.json');
-var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, [assetSource]);
+var assetSource = cmd.dataset;
+// Logic to register various assets below
+// See sstk/ssc/data/assets.json for example of list of assets
+var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+STK.assets.registerAssetGroupsSync({
+  assetSources: [cmd.dataset],
+  assetFiles: assetFiles,
+  skipDefault: false,
+  includeAllAssetFilesSources: true
+});
 if (cmd.format) {
   STK.assets.AssetGroups.setDefaultFormat(cmd.format);
 }

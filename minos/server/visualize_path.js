@@ -23,6 +23,7 @@ cmd
   .option('--skip_existing', 'Skip rendering existing images [false]')
   .option('--dataset <dataset>', 'Scene or model dataset [default: p5dScene]', 'p5dScene')
   .option('--default_goal_type <goal_type>', 'Default goal type to use (if not specified in episodes)', 'point')
+  .option('--assets <filename>', 'Additional assets files')
   .optionGroups(['scene', 'render_options', 'render_views', 'color_by', 'asset_cache', 'config_file'])
   .parse(process.argv);
 
@@ -40,10 +41,16 @@ if (!cmd.input) {
   return;
 }
 
-STK.assets.AssetGroups.registerDefaults();
-var assets = require('sstk/ssc/data/assets.json');
-var assetsMap = _.keyBy(assets, 'name');
-STK.assets.registerCustomAssetGroupsSync(assetsMap, [cmd.dataset]);
+// Logic to register various assets below
+// See sstk/ssc/data/assets.json for example of list of assets
+var assetFiles = (cmd.assets != null)? [cmd.assets] : [];
+STK.assets.registerAssetGroupsSync({
+  assetSources: [cmd.dataset],
+  assetFiles: assetFiles,
+  skipDefault: false,
+  includeAllAssetFilesSources: true
+});
+
 if (cmd.format) {
   STK.assets.AssetGroups.setDefaultFormat(cmd.format);
 }

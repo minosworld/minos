@@ -116,8 +116,9 @@ def get(env_config, override_args={}, print_config=False):
     # now merge remaining keys in at top level
     update_dict(simargs, clean_args)
 
-    simargs['scene']['defaultModelFormat'] = 'obj' if simargs['scene']['dataset'] == 'p5dScene' else None
-    simargs['scene']['defaultSceneFormat'] = 'suncg' if simargs['scene']['dataset'] == 'p5dScene' else None
+    if simargs['scene']['dataset'] == 'p5dScene':
+        simargs['scene']['defaultModelFormat'] = 'obj'
+        simargs['scene']['defaultSceneFormat'] = 'suncg' 
 
     if 'scene_ids' in override_args:
         simargs['scene']['fullId'] = simargs['scene']['dataset'] + '.' + override_args.get('scene_ids')[0]
