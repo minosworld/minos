@@ -154,6 +154,8 @@ def add_sim_args(parser):
                         default=['00a76592d5cc7d92eef022393784a2de', '066e8a32fd15541e814a9eafa82abf5d',
                                  '11be354e8dbd5d7275c486a5037ea949'],
                         help='Scene ids to load')
+    parser.add_argument('--level',
+                        help='Level to load')
     parser.add_argument('--room',
                         help='Room id to load')
     parser.add_argument('--sensors_config',

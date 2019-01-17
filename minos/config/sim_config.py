@@ -122,6 +122,8 @@ def get(env_config, override_args={}, print_config=False):
 
     if 'scene_ids' in override_args:
         simargs['scene']['fullId'] = simargs['scene']['dataset'] + '.' + override_args.get('scene_ids')[0]
+    if 'level' in override_args:
+        simargs['scene']['level'] = override_args.get('level')
 
     if print_config:
         pprint.pprint(simargs)

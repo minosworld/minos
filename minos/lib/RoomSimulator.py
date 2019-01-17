@@ -90,7 +90,7 @@ class RoomSimulator:
         if not 'level' in ep_settings:  # default to 0th level
             ep_settings['level'] = 0  # NOTE: this assumes that we only use one level
         config = {}
-        scene_changed = ep_settings['scene_id'] != self.scene_id
+        scene_changed = ep_settings['scene_id'] != self.scene_id or ep_settings['level'] != self.level
         if 'goal' in ep_settings:
             if self.params['task'] == 'room_goal':
                 room_id = ep_settings['room_id']
@@ -123,6 +123,7 @@ class RoomSimulator:
             result = self.sim.reset()
         # update our current scene id
         self.scene_id = ep_settings['scene_id']
+        self.level = ep_settings['level']
 
         # set starting dist to goal from last observation
         if result:

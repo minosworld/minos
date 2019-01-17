@@ -4,12 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.7.x] - 2018-12-??
+## [0.7.x] - 2019-01-??
 - Updated to use [SSTK](https://github.com/smartscenes/sstk) 0.7.2 with [three.js](https://threejs.org/) r95 (different rendering behavior) and updated other nodejs dependencies
 - Switch to use [socketIO_client_sstk](https://github.com/smartscenes/socketIO-client-sstk) that supports 1) socketio 2, 2) binary and 3) has separate package name to avoid name/version conflicts with original socketIO-client 
 - Support for camera arrays and equirectangular panoramas
 - Make materials front-sided by default instead of double-sided (allows for `--color_by color` option with `visualize_path.js` and `visualize_traces.js` with mp3d scenes with ceilings)
 - Improved support for shortest path computation with room goals
+- Improved support for using custom assets with `--assets` option
+- Add `--level [level]` as option to `pygame_client` for specifying level to load (for multilevel scenes) with 0 being the default first level
 - Fix reading of floor height bug from navigation grids
 - Fix bug with multi-level grid cell traversibility computation
 
