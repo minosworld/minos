@@ -206,6 +206,9 @@ def parse_sim_args(parser):
     for s in args.sensors:
         args.observations[s] = True
     args.collision_detection = {'mode': args.collision_mode}
+    if args.navmap and type(args.navmap) == bool and sim_config.sim_defaults.get('navmap'):
+        args.navmap = None
+
     if args.add_object_at_goal:
         # print('add object at goal')
         args.modifications = [{

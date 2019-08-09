@@ -415,6 +415,9 @@ def interactive_loop(sim, args):
 def main():
     global VIDEO_WRITER
     parser = argparse.ArgumentParser(description='Interactive interface to Simulator')
+    parser.add_argument('--navmap', action='store_true',
+                        default=False,
+                        help='Use navigation map')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--state_set_file',
                        help='State set file')
