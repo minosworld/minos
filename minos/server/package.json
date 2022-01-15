@@ -14,7 +14,7 @@
     "commander": "^2.9.0",
     "node-wav": "^0.0.2",
     "seedrandom": "^2.4.2",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.5",
     "socket.io": "^1.7.4",
     "sstk": "smartscenes/sstk#v0.6.1"
   },
