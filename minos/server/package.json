@@ -9,7 +9,7 @@
     "test": "npm run cover"
   },
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.4",
     "better-require": "^0.0.3",
     "commander": "^2.9.0",
     "node-wav": "^0.0.2",
